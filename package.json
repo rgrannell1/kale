@@ -1,0 +1,32 @@
+{
+	"name": "cprobe",
+	"version": "0.1.0",
+	"description": "",
+	"author": "Ryan Grannell <r.grannell2@gmail.com>",
+	"scripts": {
+		"test": "node tests/cases/test-emitter.js"
+	},
+	"bin": {
+		"cprobe": "src/cli/cprobe.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/rgrannell1/cprobe.git"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/rgrannell1/cprobe/issues"
+	},
+	"homepage": "https://github.com/rgrannell1/cprobe#readme",
+	"devDependencies": {
+		"babel-eslint": "^6.0.4",
+		"eslint": "^2.9.0",
+		"expect.js": "^0.3.1"
+	},
+	"dependencies": {
+		"colors":   "^1.1.2",
+		"docopt":   "^0.6.2",
+		"errCodes": "rgrannell1/err-codes",
+		"is":       "rgrannell1/is"
+	}
+}
