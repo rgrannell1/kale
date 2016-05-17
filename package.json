@@ -1,5 +1,5 @@
 {
-	"name": "cprobe",
+	"name": "kale",
 	"version": "0.1.0",
 	"description": "",
 	"author": "Ryan Grannell <r.grannell2@gmail.com>",
@@ -7,26 +7,26 @@
 		"test": "node tests/cases/test-emitter.js"
 	},
 	"bin": {
-		"cprobe": "src/cli/cprobe.js"
+		"kale": "src/cli/kale.js"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/rgrannell1/cprobe.git"
+		"url": "git+https://github.com/rgrannell1/kale.git"
 	},
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/rgrannell1/cprobe/issues"
+		"url": "https://github.com/rgrannell1/kale/issues"
 	},
-	"homepage": "https://github.com/rgrannell1/cprobe#readme",
+	"homepage": "https://github.com/rgrannell1/kale#readme",
 	"devDependencies": {
 		"babel-eslint": "^6.0.4",
 		"eslint": "^2.9.0",
 		"expect.js": "^0.3.1"
 	},
 	"dependencies": {
-		"colors":   "^1.1.2",
-		"docopt":   "^0.6.2",
-		"errCodes": "rgrannell1/err-codes",
-		"is":       "rgrannell1/is"
+		"colors":    "^1.1.2",
+		"docopt":    "^0.6.2",
+		"err-codes": "rgrannell1/err-codes",
+		"is":        "rgrannell1/is"
 	}
 }
