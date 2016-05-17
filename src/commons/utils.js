@@ -14,11 +14,40 @@ const constants = require('../commons/constants')
 
 const utils = { }
 
-utils.regexMatches = (regex, string) => {
 
-	var match
-	const matches = [ ]
-	return matches
+
+
+
+/*
+	group adjacent elements that match a predicate.
+*/
+
+utils.sequenceBy = (pred, coll) => {
+
+	if (coll.length === 0) {
+		return [ ]
+	} else if (coll.length === 1) {
+		return [[elem]]
+	} else {
+
+		const sequences = [ [coll[0]] ]
+
+		for (let ith = 1; ith < coll.length; ++ith) {
+
+			const elem   = coll[ith]
+			const target = sequences[sequences.length - 1]
+
+			if ( pred(target[target.length - 1], elem) ) {
+				target.push(elem)
+			} else {
+				sequences.push( [elem] )
+			}
+
+		}
+
+		return sequences
+
+	}
 
 }
 

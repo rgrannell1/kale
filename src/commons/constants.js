@@ -8,10 +8,10 @@ const colours = require('colors')
 
 
 
+
 const millisecondsPerSecond = 1000
 
 const constants = {
-    reservedChars:   ['Ỳ', 'ỳ'],
 	displayPatterns: [
     	match => match.green,
     	match => match.red,
@@ -26,9 +26,7 @@ const constants = {
 	],
 	packageJson: require('../../package'),
 	units: {
-		millisecondsPerSecond,
-		nanosecondsPerMillisecond: 10000000,
-		secondsPerMinute:          60
+		millisecondsPerSecond
 	}
 }
 

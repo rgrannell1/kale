@@ -4,15 +4,15 @@
 
 
 
-const is                 = require('is')
-const errCodes           = require('err-codes')
+const is        = require('is')
+const errCodes  = require('err-codes')
 
-const fs                 = require('fs')
-const path               = require('path')
+const fs        = require('fs')
+const path      = require('path')
 
-const constants          = require('../commons/constants')
-const readStdin          = require('../fs/read-stdin')
-const printLine          = require('../display/print-line')
+const constants = require('../commons/constants')
+const readStdin = require('../fs/read-stdin')
+const printLine = require('../display/print-line')
 
 
 
@@ -23,8 +23,10 @@ const kale = rawArgs => {
 	const args = kale.preprocess(rawArgs)
 
 	if (args.version) {
+
 		console.log(constants.packageJson.version)
 		process.exit(0)
+
 	}
 
 	if (args.fixedString) {
@@ -37,9 +39,7 @@ const kale = rawArgs => {
 
 	const printer = printLine[mode]
 
-	readStdin(line => {
-		printer(rawArgs.patterns, line)
-	})
+	readStdin(printer.bind({ }, rawArgs.patterns))
 
 }
 
