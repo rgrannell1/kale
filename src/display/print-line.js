@@ -10,6 +10,23 @@ const utils     = require('../commons/utils')
 
 
 
+const displayText = [
+	text => text.green,
+	text => text.red,
+	text => text.yellow,
+	text => text.blue,
+	text => text.magenta,
+	text => text.cyan,
+	text => text.black,
+	text => text.white,
+	text => text.gray,
+	text => text.grey
+]
+
+
+
+
+
 
 const printLine = { }
 
@@ -18,18 +35,9 @@ const printLine = { }
 
 
 
-/*
-
-
-
-*/
-
 printLine.literalString = (patterns, line) => {
 
-	const chars = line.split('').map( char => ({char, id: -1}) )
-
 	const matchIndices = patterns.reduce((acc, pattern, id) => {
-
 
 		var previousIndex  = -1
 		const matchIndices = [ ]
@@ -67,6 +75,8 @@ printLine.literalString = (patterns, line) => {
 
 	}, [ ])
 
+	const chars = line.split('').map( char => ({char, id: -1}) )
+
 	for (let {id, start, end} of matchIndices) {
 
 		for (let ith = start; ith <= end; ++ith) {
@@ -75,30 +85,27 @@ printLine.literalString = (patterns, line) => {
 
 	}
 
-	utils
-		.sequenceBy((elem0, elem1) => {
-			return elem0.id === elem1.id
-		}, chars)
-		.forEach(sequence => {
+	utils.sequenceBy((elem0, elem1) => {
+		return elem0.id === elem1.id
+	}, chars)
+	.forEach(sequence => {
 
-			const id           = sequence[0].id
-			const charSequence = sequence.map( ({char, id}) => char).join('')
+		const id           = sequence[0].id
+		const charSequence = sequence.map( ({char, id}) => char).join('')
 
-			if (id === -1) {
+		if (id === -1) {
 
-				process.stdout.write(charSequence)
+			process.stdout.write(charSequence)
 
-			} else {
+		} else {
 
-				// style characters.
+			const displayPattern = displayText[id % displayText.length]
+			process.stdout.write(displayPattern(charSequence))
 
-				const displayPattern = constants.displayPatterns[id % constants.displayPatterns.length]
-				process.stdout.write(displayPattern(charSequence))
-
-			}
+		}
 
 
-		})
+	})
 
 	console.log('')
 
@@ -120,7 +127,7 @@ printLine.regexp = (patterns, line) => {
 
 		const regexp = new RegExp(pattern, 'g')
 
-		const displayPattern = constants.displayPatterns[ith % constants.displayPatterns.length]
+		const displayPattern = displayText[ith % displayText.length]
 		const matches        = formattedLine.match(regexp)
 
 		if (matches) {

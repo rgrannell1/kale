@@ -27,7 +27,7 @@ utils.sequenceBy = (pred, coll) => {
 	if (coll.length === 0) {
 		return [ ]
 	} else if (coll.length === 1) {
-		return [[elem]]
+		return [coll]
 	} else {
 
 		const sequences = [ [coll[0]] ]
