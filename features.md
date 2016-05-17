@@ -1,7 +1,7 @@
 
 # Features
 
-- [ ] Command-line interface.
+- [ ] Command-line interface
 	- [x] Docopt.
 	- [ ] Neodoc.
 	- [x] Version flag.
@@ -11,6 +11,9 @@
 	- [ ] Read from multiple files.
 - [ ] Highlighting
 	- [ ] Add style - name user-facing pairs.
-	- [ ] Add string literal highlighting.
+	- [x] Add string literal highlighting.
+	- [x] Add capture-group highlighting.
 	- [x] Add simple-regex highlighting.
 	- [x] Add default match colouring.
+	- [ ] Implement non-overlapping matches, to ensure correct formatting.
+- [ ] Tests
