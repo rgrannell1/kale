@@ -36,12 +36,15 @@ const printLine = { }
 
 printLine.literalString = (patterns, line) => {
 
+	// for each literal text pattern, assign an ID, start & end index.
+
 	const matchIndices = patterns.reduce((acc, pattern, id) => {
 
 		var matchIndex
 		var previousIndex  = -1
-
 		const matchIndices = [ ]
+
+		// get the start index of each match in the line.
 
 		while ( (matchIndex = line.indexOf(pattern, previousIndex + 1)) !== -1 ) {
 
@@ -50,23 +53,21 @@ printLine.literalString = (patterns, line) => {
 
 		}
 
-		matchIndices.forEach(matchIndex => {
+		// accumulate all new match-indices.
 
-			if (matchIndex !== -1) {
+		return acc.concat( matchIndices.map(matchIndex => {
 
-				acc.push({
-					id,
-					start: matchIndex,
-					end:   Math.min(line.length, matchIndex + pattern.length - 1)
-				})
-
+			return {
+				id,
+				start: matchIndex,
+				end:   Math.min(line.length, matchIndex + pattern.length - 1)
 			}
 
-		})
-
-		return acc
+		}) )
 
 	}, [ ])
+
+	// tag each character with a pattern id (default to -1)
 
 	const chars = line.split('').map( char => ({char, id: -1}) )
 
@@ -78,29 +79,25 @@ printLine.literalString = (patterns, line) => {
 
 	}
 
-	utils.sequenceBy((elem0, elem1) => {
-		return elem0.id === elem1.id
-	}, chars)
-	.forEach(sequence => {
+	// group adjacent matching id's into sublists,
+	// then colourise each id and print the message.
 
-		const id           = sequence[0].id
-		const charSequence = sequence.map( ({char, _}) => char).join('')
+	const displayLine = utils
+		.sequenceBy(
+			(elem0, elem1) => elem0.id === elem1.id, chars)
+		.map(sequence => {
 
-		if (id === -1) {
+			const id           = sequence[0].id
+			const charSequence = sequence.map( ({char, _}) => char).join('')
 
-			process.stdout.write(charSequence)
+			return id === -1
+				? charSequence
+				: displayText[id % displayText.length](charSequence)
 
-		} else {
+		})
+		.join('')
 
-			const displayPattern = displayText[id % displayText.length]
-			process.stdout.write(displayPattern(charSequence))
-
-		}
-
-
-	})
-
-	console.log('')
+	console.log(displayLine)
 
 }
 
