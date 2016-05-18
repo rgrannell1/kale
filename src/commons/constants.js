@@ -3,7 +3,7 @@
 
 
 
-const colours = require('colors')
+require('colors')
 
 
 

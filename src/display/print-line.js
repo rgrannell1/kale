@@ -4,8 +4,7 @@
 
 
 
-const constants = require('../commons/constants')
-const utils     = require('../commons/utils')
+const utils = require('../commons/utils')
 
 
 
@@ -39,21 +38,15 @@ printLine.literalString = (patterns, line) => {
 
 	const matchIndices = patterns.reduce((acc, pattern, id) => {
 
+		var matchIndex
 		var previousIndex  = -1
+
 		const matchIndices = [ ]
 
-		while (true) {
+		while ( (matchIndex = line.indexOf(pattern, previousIndex + 1)) !== -1 ) {
 
-			var matchIndex = line.indexOf(pattern, previousIndex + 1)
-
-			if (matchIndex === -1) {
-				break
-			} else {
-
-				matchIndices.push(matchIndex)
-				previousIndex = matchIndex
-
-			}
+			matchIndices.push(matchIndex)
+			previousIndex = matchIndex
 
 		}
 
@@ -91,7 +84,7 @@ printLine.literalString = (patterns, line) => {
 	.forEach(sequence => {
 
 		const id           = sequence[0].id
-		const charSequence = sequence.map( ({char, id}) => char).join('')
+		const charSequence = sequence.map( ({char, _}) => char).join('')
 
 		if (id === -1) {
 

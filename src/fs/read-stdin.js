@@ -5,9 +5,7 @@
 
 
 
-const fs         = require('fs')
-const readline   = require('readline')
-const constants  = require('../commons/constants')
+const readline = require('readline')
 
 
 

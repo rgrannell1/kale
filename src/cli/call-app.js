@@ -4,9 +4,8 @@
 
 
 
-const is        = require('is')
-const constants = require('../commons/constants')
-const app       = require('../app/kale')
+
+const app = require('../app/kale')
 
 
 
@@ -21,7 +20,7 @@ callApp.preprocess = rawArgs => {
 		groupRegexp: rawArgs['--group-regexp'],
 		fixedString: rawArgs['--fixed-string'],
 		patterns:    rawArgs['<pattern>'],
-		version:     rawArgs['--version'],
+		version:     rawArgs['--version']
 	}
 
 }

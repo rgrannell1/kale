@@ -4,11 +4,6 @@
 
 
 
-const is        = require('is')
-const errCodes  = require('err-codes')
-
-const fs        = require('fs')
-const path      = require('path')
 
 const constants = require('../commons/constants')
 const readStdin = require('../fs/read-stdin')
@@ -29,12 +24,14 @@ const kale = rawArgs => {
 
 	}
 
+	var mode
+
 	if (args.fixedString) {
-		var mode = 'literalString'
+		mode = 'literalString'
 	} else if (args.groupRegexp) {
-		var mode = 'groupRegexp'
+		mode = 'groupRegexp'
 	} else {
-		var mode = 'regexp'
+		mode = 'regexp'
 	}
 
 	const printer = printLine[mode]
