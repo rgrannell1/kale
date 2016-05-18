@@ -55,10 +55,7 @@ utils.regexMatches = (regexp, string) => {
 	var match
 
 	while ( (match = regexp.exec(string)) !== null) {
-
-		console.log( match[0] )
 		matches.push(match)
-
 	}
 
 	return matches.map(match => {

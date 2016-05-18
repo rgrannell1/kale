@@ -36,14 +36,6 @@ const printLine = { }
 
 printLine.literalString = (textPatterns, line) => {
 
-	const foo = utils.regexMatches( /(a)(b)(c)/g, 'abcd abc'  )
-
-	console.log(
-		foo
-	)
-
-	throw 'xxx'
-
 	// for each literal text pattern, assign an ID, start & end index.
 
 	const matchIndices = textPatterns.reduce((acc, text, id) => {
@@ -110,35 +102,59 @@ printLine.literalString = (textPatterns, line) => {
 }
 
 printLine.groupRegexp = (patterns, line) => {
-
-	var formattedLine = line
-
-	console.log(formattedLine)
-
+	throw 'not supported'
 }
 
-printLine.regexp = (patterns, line) => {
+printLine.regexp = (regexPatterns, line) => {
 
-	var formattedLine = line
+	const matchIndices = regexPatterns.reduce((acc, regexp, id) => {
 
-	patterns.forEach((pattern, ith) => {
+		const matches = utils.regexMatches(new RegExp(regexp, 'g'), line)
 
-		const regexp = new RegExp(pattern, 'g')
+		return acc.concat( matches.map(match => {
 
-		const displayPattern = displayText[ith % displayText.length]
-		const matches        = formattedLine.match(regexp)
+			return {
+				id,
+				start: match.index,
+				end:   match.index + (match.match.length - 1)
+			}
 
-		if (matches) {
+		}) )
 
-			matches.forEach(match => {
-				formattedLine = formattedLine.replace(regexp, displayPattern(match))
-			})
+	}, [ ])
 
+
+	// tag each character with a pattern id (default to -1)
+
+	const chars = line.split('').map( char => ({char, id: -1}) )
+
+	for (let {id, start, end} of matchIndices) {
+
+		for (let ith = start; ith <= end; ++ith) {
+			chars[ith].id = id
 		}
 
-	})
+	}
 
-	console.log(formattedLine)
+	// group adjacent matching id's into sublists,
+	// then colourise each id and print the message.
+
+	const displayLine = utils
+		.sequenceBy(
+			(elem0, elem1) => elem0.id === elem1.id, chars)
+		.map(sequence => {
+
+			const id           = sequence[0].id
+			const charSequence = sequence.map( ({char, _}) => char).join('')
+
+			return id === -1
+				? charSequence
+				: displayText[id % displayText.length](charSequence)
+
+		})
+		.join('')
+
+	console.log(displayLine)
 
 }
 
