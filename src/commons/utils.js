@@ -17,10 +17,12 @@ const utils = { }
 
 utils.sequenceBy = (pred, coll) => {
 
+	var out
+
 	if (coll.length === 0) {
-		return [ ]
+		out = [ ]
 	} else if (coll.length === 1) {
-		return [coll]
+		out = [coll]
 	} else {
 
 		const sequences = [ [coll[0]] ]
@@ -38,9 +40,56 @@ utils.sequenceBy = (pred, coll) => {
 
 		}
 
-		return sequences
+		out = sequences
 
 	}
+
+	return out
+
+}
+
+utils.regexMatches = (regexp, string) => {
+
+	var index   = 1
+	var matches = [ ]
+	var match
+
+	while ( (match = regexp.exec(string)) !== null) {
+
+		console.log( match[0] )
+		matches.push(match)
+
+	}
+
+	return matches.map(match => {
+
+		const matchData = {
+			match:         null,
+			captureGroups: [ ],
+			index:         match.index
+		}
+
+		Object.keys(match).forEach(key => {
+
+			const numericKey = parseInt(key, 10)
+
+			if (numericKey === 0) {
+
+				matchData.match = match[0]
+
+			} else if (numericKey === numericKey) {
+
+				matchData.captureGroups[numericKey - 1] = match[numericKey]
+
+			}
+
+		})
+
+		return matchData
+
+	})
+
+	return matches
 
 }
 

@@ -34,11 +34,19 @@ const printLine = { }
 
 
 
-printLine.literalString = (patterns, line) => {
+printLine.literalString = (textPatterns, line) => {
+
+	const foo = utils.regexMatches( /(a)(b)(c)/g, 'abcd abc'  )
+
+	console.log(
+		foo
+	)
+
+	throw 'xxx'
 
 	// for each literal text pattern, assign an ID, start & end index.
 
-	const matchIndices = patterns.reduce((acc, pattern, id) => {
+	const matchIndices = textPatterns.reduce((acc, text, id) => {
 
 		var matchIndex
 		var previousIndex  = -1
@@ -46,7 +54,7 @@ printLine.literalString = (patterns, line) => {
 
 		// get the start index of each match in the line.
 
-		while ( (matchIndex = line.indexOf(pattern, previousIndex + 1)) !== -1 ) {
+		while ( (matchIndex = line.indexOf(text, previousIndex + 1)) !== -1 ) {
 
 			matchIndices.push(matchIndex)
 			previousIndex = matchIndex
@@ -60,7 +68,7 @@ printLine.literalString = (patterns, line) => {
 			return {
 				id,
 				start: matchIndex,
-				end:   Math.min(line.length, matchIndex + pattern.length - 1)
+				end:   Math.min(line.length, matchIndex + text.length - 1)
 			}
 
 		}) )
