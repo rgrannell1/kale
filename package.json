@@ -6,6 +6,7 @@
 	"scripts": {
 		"test": "node tests/cases/test-emitter.js"
 	},
+	"preferGlobal": true,
 	"bin": {
 		"kale": "src/cli/kale.js"
 	},

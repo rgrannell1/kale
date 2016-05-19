@@ -1,0 +1,16 @@
+name:        kale
+version:     v0.1.0
+summary:     hightlight streamed text.
+description: >
+  Kale (colour-tail -> cail -> kale) behaves similarily to tail's live-follow mode, but with
+  extra support for highlighting streamed text.
+
+apps:
+  kale:
+    command: bin/kale
+
+parts:
+  kale:
+    plugin: nodejs
+    node-packages:
+      - rgrannell1/kale

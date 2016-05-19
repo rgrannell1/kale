@@ -12,4 +12,7 @@ install:
 eslint: FORCE
 	$(ESLINT) $(ESLINT_FLAGS) ./src
 
+snap: FORCE
+	cd snapcraft && snapcraft snap && cd ..
+
 FORCE:
