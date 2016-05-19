@@ -17,7 +17,8 @@ const builtInHighlighters = { }
 
 
 builtInHighlighters.default = [
-	constants.regexp.syntaxDelimiters
+	constants.regexp.syntaxDelimiters,
+	constants.regexp.numbers
 ]
 
 

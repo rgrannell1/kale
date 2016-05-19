@@ -14,7 +14,7 @@ const constants = require('../commons/constants')
 
 const docs = `
 Name:
-	kale — test network connections to a URL.
+	kale — hightlight streamed text.
 Usage:
 	kale [-e | --regexp] [-f | --fixed-string] [-g | --group-regexp] <pattern>...
 	kale [-d | --default]
