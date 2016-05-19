@@ -19,6 +19,8 @@ callApp.preprocess = rawArgs => {
 		regexp:      rawArgs['--regexp'],
 		groupRegexp: rawArgs['--group-regexp'],
 		fixedString: rawArgs['--fixed-string'],
+		default:     rawArgs['--default'],
+
 		patterns:    rawArgs['<pattern>'],
 		version:     rawArgs['--version']
 	}

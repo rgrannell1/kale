@@ -34,7 +34,7 @@ const printLine = { }
 
 
 
-const displayPatternMatches = (matcher, patterns, line) => {
+const printHighlightedLine = (matcher, patterns, line) => {
 
 	const matchIndices = matcher(patterns, line)
 
@@ -77,13 +77,13 @@ const displayPatternMatches = (matcher, patterns, line) => {
 
 
 
-printLine.literalString = displayPatternMatches.bind({ }, matchPatterns.literalString)
+printLine.literalString = printHighlightedLine.bind({ }, matchPatterns.literalString)
 
 printLine.groupRegexp = (patterns, line) => {
 	throw 'not supported'
 }
 
-printLine.regexp = displayPatternMatches.bind({ }, matchPatterns.regexp)
+printLine.regexp = printHighlightedLine.bind({ }, matchPatterns.regexp)
 
 
 

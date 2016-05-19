@@ -5,9 +5,10 @@
 
 
 
-const constants = require('../commons/constants')
-const readStdin = require('../fs/read-stdin')
-const printLine = require('../display/print-line')
+const constants          = require('../commons/constants')
+const predefinedPatterns = require('../app/predefined-patterns')
+const readStdin          = require('../fs/read-stdin')
+const printLine          = require('../display/print-line')
 
 
 
@@ -34,9 +35,16 @@ const kale = rawArgs => {
 		mode = 'regexp'
 	}
 
-	const printer = printLine[mode]
+	const printer  = printLine[mode]
+	var patterns
 
-	readStdin(printer.bind({ }, rawArgs.patterns))
+	if (rawArgs.patterns && rawArgs.patterns.length > 0) {
+		patterns = rawArgs.patterns
+	} else {
+		patterns = predefinedPatterns.default
+	}
+
+	readStdin(printer.bind({ }, patterns))
 
 }
 

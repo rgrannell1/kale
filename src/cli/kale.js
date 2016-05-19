@@ -17,6 +17,7 @@ Name:
 	kale — test network connections to a URL.
 Usage:
 	kale [-e | --regexp] [-f | --fixed-string] [-g | --group-regexp] <pattern>...
+	kale [-d | --default]
 	kale (-h | --help | --version)
 
 Description:
@@ -28,6 +29,7 @@ Description:
 	2. Capturing groups can be treated as seperate matches.
 
 Options:
+	-d, --default         Default, log-format agnostic highlighting.
 	-e, --regexp          Treat provided patterns as non-capture group regular expressions.
 	-f, --fixed-string    Treat provided patterns as literal strings.
 	-g, --group-regexp    Treat provided patterns as capture group regular expressions.
