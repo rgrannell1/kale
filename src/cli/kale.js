@@ -16,7 +16,7 @@ const docs = `
 Name:
 	kale — hightlight streamed text.
 Usage:
-	kale [-d | --default]
+	kale [-d | --default] [-e | --regexp] [-f | --fixed-string]
 	kale (-h | --help | --version)
 
 Description:
