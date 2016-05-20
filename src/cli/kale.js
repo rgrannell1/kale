@@ -80,7 +80,7 @@ const callApp = require('../cli/call-app')
 
 
 
-const args = Object.assign(docopt(docs))
+const args = docopt(docs)
 
 
 

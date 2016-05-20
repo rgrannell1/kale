@@ -11,7 +11,7 @@
     "kale": "src/cli/kale.js"
   },
   "engines": {
-  	"node": ">=6.0.0"
+  	"node": ">=4.4.0"
   },
   "repository": {
     "type": "git",

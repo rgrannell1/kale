@@ -59,7 +59,7 @@ const printHighlightedLine = (matcher, patterns, line) => {
 		.map(sequence => {
 
 			const id           = sequence[0].id
-			const charSequence = sequence.map( ({char, _}) => char).join('')
+			const charSequence = sequence.map(val => val.char).join('')
 
 			return id === -1
 				? charSequence
