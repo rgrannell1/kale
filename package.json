@@ -4,8 +4,7 @@
   "description": "",
   "author": "Ryan Grannell <r.grannell2@gmail.com>",
   "scripts": {
-    "test": "node tests/cases/test-emitter.js",
-    "preinstall": "echo 'updating node.js' && n latest"
+    "test": "node tests/cases/test-emitter.js"
   },
   "preferGlobal": true,
   "bin": {
@@ -29,7 +28,6 @@
     "expect.js": "^0.3.1"
   },
   "dependencies": {
-    "n": "^2.1.0",
     "colors": "^1.1.2",
     "docopt": "^0.6.2",
     "err-codes": "rgrannell1/err-codes",

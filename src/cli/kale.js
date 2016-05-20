@@ -71,15 +71,6 @@ Copyright:
 
 
 
-const version = process.version.replace('v', '').split('.')
-
-if (version[0] < 6) {
-
-	console.error(`kale requires node 6.0.0 or newer (actual version was ${version})`)
-	process.exit(1)
-
-}
-
 
 
 const docopt  = require('docopt').docopt
@@ -89,9 +80,7 @@ const callApp = require('../cli/call-app')
 
 
 
-const args = Object.assign({
-
-}, docopt(docs))
+const args = Object.assign(docopt(docs))
 
 
 
