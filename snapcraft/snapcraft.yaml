@@ -6,7 +6,6 @@ description: >
   extra support for highlighting streamed text.
 license: LICENSE-MIT.md
 
-
 apps:
   kale:
     command: bin/kale
