@@ -13,6 +13,6 @@ eslint: FORCE
 	$(ESLINT) $(ESLINT_FLAGS) ./src
 
 snap: FORCE
-	cd snapcraft && snapcraft clean && snapcraft snap && cd ..
+	cd snapcraft && snapcraft snap && cd ..
 
 FORCE:
