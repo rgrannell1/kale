@@ -6,13 +6,13 @@ ESLINT_FLAGS   = --config eslint/eslint.json
 
 
 
-install:
-	npm link && npm install --global
+install: snap
+	cd snapcraft && snap install kale_* && cd ..
 
 eslint: FORCE
 	$(ESLINT) $(ESLINT_FLAGS) ./src
 
 snap: FORCE
-	cd snapcraft && snapcraft snap && cd ..
+	cd snapcraft && snapcraft clean && snapcraft snap && cd ..
 
 FORCE:

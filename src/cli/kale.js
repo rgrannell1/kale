@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --harmony --harmony_destructuring
 
 "use strict"
 
@@ -69,6 +69,16 @@ Copyright:
 
 `
 
+
+
+const version = process.version.replace('v', '').split('.')
+
+if (version[0] < 6) {
+
+	console.error(`kale requires node 6.0.0 or newer (actual version was ${version})`)
+	process.exit(1)
+
+}
 
 
 

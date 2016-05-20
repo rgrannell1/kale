@@ -42,10 +42,10 @@ const printHighlightedLine = (matcher, patterns, line) => {
 
 	const chars = line.split('').map( char => ({char, id: -1}) )
 
-	for (let {id, start, end} of matchIndices) {
+	for (let val of matchIndices) {
 
-		for (let ith = start; ith <= end; ++ith) {
-			chars[ith].id = id
+		for (let ith = val.start; ith <= val.end; ++ith) {
+			chars[ith].id = val.id
 		}
 
 	}

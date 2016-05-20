@@ -86,8 +86,6 @@ utils.regexMatches = (regexp, string) => {
 
 	})
 
-	return matches
-
 }
 
 
