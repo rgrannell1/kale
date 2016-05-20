@@ -5,6 +5,7 @@
 
 
 
+const is    = require('is')
 const utils = require('../commons/utils')
 
 
@@ -52,9 +53,13 @@ matchPatterns.literalString = (patterns, line) => {
 
 matchPatterns.regexp = (patterns, line) => {
 
-	return patterns.reduce((acc, regexp, id) => {
+	return patterns.reduce((acc, pattern, id) => {
 
-		const matches = utils.regexMatches(new RegExp(regexp, 'g'), line)
+		const regexp = is.regexp(pattern)
+			? pattern
+			: new RegExp(pattern, 'g')
+
+		const matches = utils.regexMatches(regexp, line)
 
 		return acc.concat( matches.map(match => {
 

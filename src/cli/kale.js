@@ -16,7 +16,6 @@ const docs = `
 Name:
 	kale — hightlight streamed text.
 Usage:
-	kale [-e | --regexp] [-f | --fixed-string] [-g | --group-regexp] <pattern>...
 	kale [-d | --default]
 	kale (-h | --help | --version)
 
@@ -25,14 +24,10 @@ Description:
 	Kale (colour-tail -> cail -> kale) behaves similarily to tail's live-follow mode, but with
 	extra support for highlighting streamed text.
 
-	1. Each literal string or regexp match is automatically highlighted with a seperate style.
-	2. Capturing groups can be treated as seperate matches.
-
 Options:
 	-d, --default         Default, log-format agnostic highlighting.
 	-e, --regexp          Treat provided patterns as non-capture group regular expressions.
 	-f, --fixed-string    Treat provided patterns as literal strings.
-	-g, --group-regexp    Treat provided patterns as capture group regular expressions.
 	-h, --help            Display this documentation.
 	--version             Display the package version.
 

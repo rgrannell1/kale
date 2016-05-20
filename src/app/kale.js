@@ -29,8 +29,6 @@ const kale = rawArgs => {
 
 	if (args.fixedString) {
 		mode = 'literalString'
-	} else if (args.groupRegexp) {
-		mode = 'groupRegexp'
 	} else {
 		mode = 'regexp'
 	}

@@ -79,10 +79,6 @@ const printHighlightedLine = (matcher, patterns, line) => {
 
 printLine.literalString = printHighlightedLine.bind({ }, matchPatterns.literalString)
 
-printLine.groupRegexp = (patterns, line) => {
-	throw 'not supported'
-}
-
 printLine.regexp = printHighlightedLine.bind({ }, matchPatterns.regexp)
 
 
