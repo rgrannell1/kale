@@ -1,5 +1,5 @@
 node_modules/
 npm-debug.log
-snapcraft/
-snapcraft.yaml
+snapcraft/*
+!snapcraft.yaml
 LICENSE-MIT.md

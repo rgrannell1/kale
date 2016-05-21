@@ -22,16 +22,16 @@ matchPatterns.literalString = (patterns, line) => {
 
 	return patterns.reduce((acc, text, id) => {
 
-		var matchIndex
+		var currentMatchIndex
 		var previousIndex  = -1
 		const matchIndices = [ ]
 
 		// get the start index of each match in the line.
 
-		while ( (matchIndex = line.indexOf(text, previousIndex + 1)) !== -1 ) {
+		while ( (currentMatchIndex = line.indexOf(text, previousIndex + 1)) !== -1 ) {
 
-			matchIndices.push(matchIndex)
-			previousIndex = matchIndex
+			matchIndices.push(currentMatchIndex)
+			previousIndex = currentMatchIndex
 
 		}
 

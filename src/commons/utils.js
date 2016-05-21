@@ -50,12 +50,11 @@ utils.sequenceBy = (pred, coll) => {
 
 utils.regexMatches = (regexp, string) => {
 
-	var index   = 1
 	var matches = [ ]
-	var match
+	var currentMatch
 
-	while ( (match = regexp.exec(string)) !== null) {
-		matches.push(match)
+	while ( (currentMatch = regexp.exec(string)) !== null) {
+		matches.push(currentMatch)
 	}
 
 	return matches.map(match => {
