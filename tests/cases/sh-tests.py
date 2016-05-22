@@ -16,9 +16,19 @@ class Tests(unittest.TestCase):
 
 	def test_no_matches(self):
 
-		assert kale(_in = "pass") == "pass\n"
-		assert kale(_in = "💩 💩 💩 ") == "💩 💩 💩 \n"
+		# -- regular expression mode.
 
+		assert kale("mismatch_0", _in = "💩 💩 💩 ") == "💩 💩 💩 \n"
+		assert kale("mismatch_0", "mismatch_1", _in = "💩 💩 💩 ") == "💩 💩 💩 \n"
+
+		assert kale("mismatch_0", "mismatch_1", _in = "💩 💩 💩 ") == "💩 💩 💩 \n"
+
+		# -- fixed string mode.
+
+		assert kale("mismatch_0", fixed_string = True, _in = "💩 💩 💩 ") == "💩 💩 💩 \n"
+		assert kale("mismatch_0", "mismatch_1", fixed_string = True, _in = "💩 💩 💩 ") == "💩 💩 💩 \n"
+
+		assert kale("mismatch_0", "mismatch_1", fixed_string = True,_in = "💩 💩 💩 ") == "💩 💩 💩 \n"
 
 
 
