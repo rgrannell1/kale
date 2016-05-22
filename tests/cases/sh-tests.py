@@ -47,7 +47,7 @@ def find_kale_styles( ):
 
 def find_ansii (styles, pattern, output):
 
-	processed   = str(output.stdout)
+	processed   = output.stdout.decode("unicode_escape").strip( )
 	match_found = False
 
 	for style in styles:
@@ -89,8 +89,14 @@ class Tests(unittest.TestCase):
 
 		for pattern in ['foo', 'baz']:
 
-			assert find_ansii(styles, 'foo',
+			assert find_ansii(styles, pattern,
 				kale([pattern], fixed_string = True, _in = pattern))
+
+			assert find_ansii(styles, pattern,
+				kale([pattern], fixed_string = True, _in = 'pre ' + pattern + ' post'))
+
+			assert find_ansii(styles, pattern,
+				kale([pattern], fixed_string = True, _in = 'pre ' + pattern + ' post'))
 
 
 
