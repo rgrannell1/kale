@@ -5,6 +5,7 @@
 
 
 
+import random
 import unittest
 from sh import kale
 
@@ -12,23 +13,85 @@ from sh import kale
 
 
 
+def unique_string (size):
+	return ''.join(random.choice(['0', '1']) for _ in range(size))
+
+def find_kale_styles( ):
+
+	unique_strings = [ ]
+
+	unique_style_starts  = set( )
+
+	while True:
+
+		unique_strings.append(unique_string(128))
+
+		outputs = kale(unique_strings, _in = ' '.join(unique_strings))
+
+		previous_unique_count = len(unique_style_starts)
+
+		for str_input, str_output in zip(unique_strings, outputs.split(' ')):
+
+			# get the style applied to the current string.
+
+			style_start, style_end = str_output.split(str_input)
+
+			unique_style_starts.add(style_start)
+			unique_style_end = style_end.strip( )
+
+		# styles cycle back-around; exit when the same style is encountered.
+		if len(unique_style_starts) == previous_unique_count:
+			break
+
+	return [{"start": start, "end": unique_style_end} for start in unique_style_starts]
+
+def find_ansii (styles, pattern, output):
+
+	processed   = str(output.stdout)
+	match_found = False
+
+	for style in styles:
+
+		styled_pattern = style['start'] + pattern + style['end']
+
+		if processed.find(styled_pattern) != -1:
+			match_found = True
+
+	return match_found
+
+
+
+
+
+
 class Tests(unittest.TestCase):
 
-	def test_no_matches(self):
+	def test_no_matches (self):
 
-		# -- regular expression mode.
+		for patterns in [ ['mismatch_0'], ['mismatch_0', 'mismatch_1'] ]:
+			for text_input in ["💩 💩 💩 ", "***💩"]:
 
-		assert kale("mismatch_0", _in = "💩 💩 💩 ") == "💩 💩 💩 \n"
-		assert kale("mismatch_0", "mismatch_1", _in = "💩 💩 💩 ") == "💩 💩 💩 \n"
+				expected_ouput = text_input + '\n'
 
-		assert kale("mismatch_0", "mismatch_1", _in = "💩 💩 💩 ") == "💩 💩 💩 \n"
+				# -- regular expression mode.
 
-		# -- fixed string mode.
+				assert kale(patterns, _in = text_input) == expected_ouput
 
-		assert kale("mismatch_0", fixed_string = True, _in = "💩 💩 💩 ") == "💩 💩 💩 \n"
-		assert kale("mismatch_0", "mismatch_1", fixed_string = True, _in = "💩 💩 💩 ") == "💩 💩 💩 \n"
+				# -- fixed string mode.
 
-		assert kale("mismatch_0", "mismatch_1", fixed_string = True,_in = "💩 💩 💩 ") == "💩 💩 💩 \n"
+				assert kale(patterns, fixed_string = True, _in = text_input) == expected_ouput
+
+	def test_matches (self):
+
+		# first, extract the colour information associated with each match group.
+
+		styles = find_kale_styles( )
+
+		for pattern in ['foo', 'baz']:
+
+			assert find_ansii(styles, 'foo',
+				kale([pattern], fixed_string = True, _in = pattern))
+
 
 
 
