@@ -68,7 +68,7 @@ const printHighlightedLine = (matcher, patterns, line) => {
 		})
 		.join('')
 
-	console.log(displayLine)
+	return displayLine
 
 }
 

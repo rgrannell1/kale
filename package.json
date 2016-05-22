@@ -4,7 +4,7 @@
   "description": "",
   "author": "Ryan Grannell <r.grannell2@gmail.com>",
   "scripts": {
-    "test": "node tests/cases/test-emitter.js"
+    "test": "node tests/cases/test-basic.js"
   },
   "preferGlobal": true,
   "bin": {

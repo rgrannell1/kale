@@ -5,6 +5,7 @@
 
 
 
+const events             = require('events')
 const constants          = require('../commons/constants')
 const predefinedPatterns = require('../app/predefined-patterns')
 const readStdin          = require('../fs/read-stdin')
@@ -26,6 +27,7 @@ const kale = rawArgs => {
 	}
 
 	var mode
+	const emitter = new events.EventEmitter( )
 
 	if (args.fixedString) {
 		mode = 'literalString'
@@ -42,7 +44,23 @@ const kale = rawArgs => {
 		patterns = predefinedPatterns.default
 	}
 
-	readStdin(printer.bind({ }, patterns))
+	readStdin(line => {
+
+
+		const formatted = printer(patterns, line)
+
+		if (rawArgs.display) {
+			console.log(formatted)
+		}
+
+		emitter.emit('line', {
+			before: line,
+			after:  formatted
+		})
+
+	})
+
+	return emitter
 
 }
 

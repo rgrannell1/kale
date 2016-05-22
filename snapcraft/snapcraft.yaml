@@ -1,6 +1,6 @@
 name:        kale
 version:     v0.1.0
-summary:     hightlight streamed text.
+summary:     highlight streamed text.
 description: >
   Kale (colour-tail -> cail -> kale) behaves similarily to tail's live-follow mode, but with
   extra support for highlighting streamed text.
