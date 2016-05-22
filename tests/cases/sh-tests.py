@@ -66,6 +66,17 @@ def find_ansii (styles, pattern, output):
 
 class Tests(unittest.TestCase):
 
+	# validate test fails when no value present.
+
+	def test_known_finder_failure (self):
+
+		try:
+			assert find_ansii(find_kale_styles( ), 'not present', '___')
+		except Exception:
+			return
+
+		assert false
+
 	def test_no_matches (self):
 
 		for patterns in [ ['mismatch_0'], ['mismatch_0', 'mismatch_1'] ]:
@@ -81,7 +92,8 @@ class Tests(unittest.TestCase):
 
 				assert kale(patterns, fixed_string = True, _in = text_input) == expected_ouput
 
-	def test_matches (self):
+
+	def test_fixed_string_matches (self):
 
 		# first, extract the colour information associated with each match group.
 
