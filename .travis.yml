@@ -1,8 +1,11 @@
-language: python
-python:
-  - "3.2"
-  - "3.3"
-  - "3.4"
-  - "3.5"
-install: "pip3 install sh"
+language: node_js
+sudo:     true
+node_js:
+  - "4.4.0"
+
+install:
+  "sudo apt-get install build-essential"
+  "sudo apt-get install snapcraft snapd"
+  "pip install sh"
+
 script:  make test
