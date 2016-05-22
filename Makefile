@@ -15,4 +15,7 @@ install: snap
 snap: FORCE
 	cd snapcraft && snapcraft clean && snapcraft snap && cd ..
 
+test:
+	python3 tests/cases/sh-tests.py
+
 FORCE:
