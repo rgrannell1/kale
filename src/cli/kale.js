@@ -17,7 +17,7 @@ Name:
 	kale — hightlight streamed text.
 Usage:
 	kale [-e | --regexp] [-f | --fixed-string] [-i | --invert] [-w | --whole-line] <pattern>...
-	kale [-d | --default] [-i | --invert]
+	kale [-d | --default] [-i | --invert] [-w | --whole-line]
 	kale (-h | --help | --version)
 
 Description:

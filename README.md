@@ -22,6 +22,7 @@ kale
 
 - Added options to highlight whole-line, — --whole-line — rather than individual matches, which is useful for spotting key-lines in a log-file.
 
+- uncaught errors are now presented tidily to the user.
 
 ### License
 

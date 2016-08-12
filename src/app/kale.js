@@ -3,6 +3,24 @@
 
 
 
+const userFailingErrorMesasage = `Something has went terribly wrong!
+Please report the following error message to https://github.com/rgrannell1/kale/issues,
+(along with the input text if possible):
+`
+
+process.on('uncaughtException', err => {
+
+	console.error(userFailingErrorMesasage)
+
+	console.error(err.message)
+	console.error(err.stack)
+
+	process.exit(1)
+
+})
+
+
+
 
 
 const events             = require('events')
@@ -41,7 +59,7 @@ const kale = rawArgs => {
 	if (rawArgs.patterns && rawArgs.patterns.length > 0) {
 		patterns = rawArgs.patterns
 	} else {
-		patterns = predefinedPatterns.default
+		patterns = predefinedPatterns.today( )
 	}
 
 	readStdin(line => {
