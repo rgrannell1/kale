@@ -16,13 +16,16 @@ const callApp = rawArgs => app(callApp.preprocess(rawArgs))
 callApp.preprocess = rawArgs => {
 
 	return {
-		regexp:      rawArgs['--regexp'],
-		fixedString: rawArgs['--fixed-string'],
-		default:     rawArgs['--default'],
-		display:     true,
+		regexp:           rawArgs['--regexp'],
+		fixedString:      rawArgs['--fixed-string'],
+		default:          rawArgs['--default'],
+		invert:           rawArgs['--invert'],
+		displayWholeLine: rawArgs['--whole-line'],
 
-		patterns:    rawArgs['<pattern>'],
-		version:     rawArgs['--version']
+		display:          true,
+
+		patterns:         rawArgs['<pattern>'],
+		version:          rawArgs['--version']
 	}
 
 }

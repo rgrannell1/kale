@@ -46,8 +46,10 @@ const kale = rawArgs => {
 
 	readStdin(line => {
 
-
-		const formatted = printer(patterns, line)
+		const formatted = printer(patterns, line, {
+			invert:           args.invert,
+			displayWholeLine: args.displayWholeLine
+		})
 
 		if (rawArgs.display) {
 			console.log(formatted)

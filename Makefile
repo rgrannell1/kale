@@ -10,6 +10,7 @@ eslint: FORCE
 	$(ESLINT) $(ESLINT_FLAGS) ./src
 
 install: snap
+	rm snapcraft/kale_*
 	cd snapcraft && snap install kale_* && cd ..
 
 snap: FORCE

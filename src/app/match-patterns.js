@@ -18,7 +18,7 @@ const matchPatterns = { }
 
 
 
-matchPatterns.literalString = (patterns, line) => {
+matchPatterns.literalString = (patterns, line, options) => {
 
 	return patterns.reduce((acc, text, id) => {
 
@@ -28,10 +28,20 @@ matchPatterns.literalString = (patterns, line) => {
 
 		// get the start index of each match in the line.
 
-		while ( (currentMatchIndex = line.indexOf(text, previousIndex + 1)) !== -1 ) {
+		if (options.displayWholeLine) {
 
-			matchIndices.push(currentMatchIndex)
-			previousIndex = currentMatchIndex
+			if (line.indexOf(text) !== -1) {
+				matchIndices.push(0)
+			}
+
+		} else {
+
+			while ( (currentMatchIndex = line.indexOf(text, previousIndex + 1)) !== -1 ) {
+
+				matchIndices.push(currentMatchIndex)
+				previousIndex = currentMatchIndex
+
+			}
 
 		}
 
@@ -42,7 +52,9 @@ matchPatterns.literalString = (patterns, line) => {
 			return {
 				id,
 				start: matchIndex,
-				end:   Math.min(line.length, matchIndex + text.length - 1)
+				end:   options.displayWholeLine
+					? Math.min(line.length - 1)
+					: Math.min(line.length - 1, matchIndex + text.length - 1)
 			}
 
 		}) )
@@ -51,7 +63,7 @@ matchPatterns.literalString = (patterns, line) => {
 
 }
 
-matchPatterns.regexp = (patterns, line) => {
+matchPatterns.regexp = (patterns, line, options) => {
 
 	return patterns.reduce((acc, pattern, id) => {
 
@@ -59,21 +71,42 @@ matchPatterns.regexp = (patterns, line) => {
 			? pattern
 			: new RegExp(pattern, 'g')
 
-		const matches = utils.regexMatches(regexp, line)
+		if (options.displayWholeLine) {
 
-		return acc.concat( matches.map(match => {
+			const hasMatch = regexp.test(line)
 
-			return {
-				id,
-				start: match.index,
-				end:   match.index + (match.match.length - 1)
+			if (hasMatch) {
+
+				return acc.concat({
+					id,
+					start: 0,
+					end:   line.length - 1
+				})
+
+			} else {
+				return acc
 			}
 
-		}) )
+		} else {
+
+			const matches = utils.regexMatches(regexp, line)
+
+			return acc.concat( matches.map(match => {
+
+				return {
+					id,
+					start: match.index,
+					end:   match.index + (match.match.length - 1)
+				}
+
+			}) )
+
+		}
 
 	}, [ ])
 
 }
+
 
 
 

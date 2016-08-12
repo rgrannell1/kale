@@ -12,6 +12,17 @@ Kale (colour-tail → cail → kale) behaves similarily to `tail's` live-follow 
 kale
 ```
 
+### Changelog
+
+#### v0.2.0
+
+- Corrected error in which documentation incorrectly displayed project author.
+
+- Added inverted-colour mode — --invert — which highlights match backgrounds rather than characters. This is useful when matches are rare.
+
+- Added options to highlight whole-line, — --whole-line — rather than individual matches, which is useful for spotting key-lines in a log-file.
+
+
 ### License
 
 The MIT License

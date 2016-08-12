@@ -4,6 +4,7 @@
 
 
 
+const ansi          = require('ansi-styles')
 const utils         = require('../commons/utils')
 const matchPatterns = require('../app/match-patterns')
 
@@ -11,17 +12,33 @@ const matchPatterns = require('../app/match-patterns')
 
 
 const displayText = [
-	text => text.green,
-	text => text.red,
-	text => text.yellow,
-	text => text.blue,
-	text => text.magenta,
-	text => text.cyan,
-	text => text.black,
-	text => text.white,
-	text => text.gray,
-	text => text.grey
-]
+
+	'green',
+	'red',
+	'yellow',
+	'blue',
+	'magenta',
+	'cyan',
+	'black',
+	'white',
+	'gray',
+	'grey'
+
+].map(colour => {
+	return (text, options) => {
+
+		if (options.invert) {
+
+			return ansi.inverse.open + ansi[colour].open + text + ansi[colour].close + ansi.inverse.close
+
+		} else {
+
+			return ansi[colour].open + text + ansi[colour].close
+
+		}
+
+	}
+})
 
 
 
@@ -34,9 +51,9 @@ const printLine = { }
 
 
 
-const printHighlightedLine = (matcher, patterns, line) => {
+const printHighlightedLine = (matcher, patterns, line, options) => {
 
-	const matchIndices = matcher(patterns, line)
+	const matchIndices = matcher(patterns, line, options)
 
 	// tag each character with a pattern id (default to -1)
 
@@ -63,7 +80,7 @@ const printHighlightedLine = (matcher, patterns, line) => {
 
 			return id === -1
 				? charSequence
-				: displayText[id % displayText.length](charSequence)
+				: displayText[id % displayText.length](charSequence, options)
 
 		})
 		.join('')

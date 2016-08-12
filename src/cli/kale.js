@@ -16,8 +16,8 @@ const docs = `
 Name:
 	kale — hightlight streamed text.
 Usage:
-	kale [-e | --regexp] [-f | --fixed-string] <pattern>...
-	kale [-d | --default]
+	kale [-e | --regexp] [-f | --fixed-string] [-i | --invert] [-w | --whole-line] <pattern>...
+	kale [-d | --default] [-i | --invert]
 	kale (-h | --help | --version)
 
 Description:
@@ -26,11 +26,13 @@ Description:
 	extra support for highlighting streamed text.
 
 Options:
-	-d, --default         Default, log-format agnostic highlighting.
-	-e, --regexp          Treat provided patterns as non-capture group regular expressions.
-	-f, --fixed-string    Treat provided patterns as literal strings.
-	-h, --help            Display this documentation.
-	--version             Display the package version.
+	-d, --default                       Default, log-format agnostic highlighting.
+	-e, --regexp                        Treat provided patterns as non-capture group regular expressions.
+	-f, --fixed-string                  Treat provided patterns as literal strings.
+	-i, --invert                        Colour-invert any matches.
+	-w, --whole-line                    If a match occurs, display the whole line rather than the matching text.
+	-h, --help                          Display this documentation.
+	--version                           Display the package version.
 
 Arguments:
 	<pattern>...          The text or regular expression pattern(s) to highlight.

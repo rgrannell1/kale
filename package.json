@@ -1,6 +1,6 @@
 {
   "name": "kale",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "",
   "author": "Ryan Grannell <r.grannell2@gmail.com>",
   "scripts": {
@@ -11,7 +11,7 @@
     "kale": "src/cli/kale.js"
   },
   "engines": {
-  	"node": ">=4.4.0"
+    "node": ">=4.4.0"
   },
   "repository": {
     "type": "git",
@@ -28,7 +28,7 @@
     "expect.js": "^0.3.1"
   },
   "dependencies": {
-    "colors": "^1.1.2",
+    "ansi-styles": "^2.2.1",
     "docopt": "^0.6.2",
     "err-codes": "rgrannell1/err-codes",
     "is": "rgrannell1/is"
