@@ -80,7 +80,7 @@ class Tests(unittest.TestCase):
 	def test_no_matches (self):
 
 		for patterns in [ ['mismatch_0'], ['mismatch_0', 'mismatch_1'] ]:
-			for text_input in ["💩 💩 💩 ", "***💩"]:
+			for text_input in [unichr(0x2603), unichr(0x2603)]:
 
 				expected_ouput = text_input + '\n'
 

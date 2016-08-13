@@ -3,10 +3,6 @@
 
 
 
-require('colors')
-
-
-
 
 
 const millisecondsPerSecond = 1000
@@ -53,7 +49,9 @@ const constants = {
 			'[0-9]{10}',
 			'[0-9]{13}'
 
-		].join('|'), 'g')
+		].join('|'), 'g'),
+
+		hourMinutesSeconds: '[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}'
 
 	}
 }

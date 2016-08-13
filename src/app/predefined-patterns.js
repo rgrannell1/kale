@@ -31,8 +31,7 @@ builtInHighlighters.today = ( ) => {
 
 
 	const now = moment( )
-
-	return [
+	const todayPrefixes = [
 		now.format('MMM D'),
 		now.format('MMM Do'),
 		now.format('MMM DD'),
@@ -42,6 +41,14 @@ builtInHighlighters.today = ( ) => {
 		now.format('MMMM Do'),
 		now.format('MMMM DD'),
 	]
+
+	return todayPrefixes.reduce((acc, prefix) => {
+
+		return acc.concat([
+			prefix + '[ \t]+' + constants.regexp.hourMinutesSeconds
+		])
+
+	}, [ ])
 
 }
 
