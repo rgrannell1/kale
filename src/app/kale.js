@@ -59,7 +59,7 @@ const kale = rawArgs => {
 	if (rawArgs.patterns && rawArgs.patterns.length > 0) {
 		patterns = rawArgs.patterns
 	} else {
-		patterns = predefinedPatterns.today( )
+		patterns = predefinedPatterns.default( )
 	}
 
 	readStdin(line => {
