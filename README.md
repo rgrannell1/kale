@@ -14,6 +14,10 @@ kale
 
 ### Changelog
 
+### v0.3.0
+
+- Reported nodejs/node #8095, and updated to v7.10.0 which fixed a bug in which Kale only worked for a limited number of lines before halting.
+
 #### v0.2.0
 
 - Corrected error in which documentation incorrectly displayed project author.

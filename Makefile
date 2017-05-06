@@ -11,7 +11,7 @@ eslint: FORCE
 
 install: snap
 	#  rm snapcraft/kale_*
-	cd snapcraft && snap install kale_* && cd ..
+	cd snapcraft && snap install --dangerous kale_* && cd ..
 
 snap: FORCE
 	cd snapcraft && snapcraft clean && snapcraft snap && cd ..

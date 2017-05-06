@@ -1,5 +1,5 @@
 name:        kale
-version:     v0.2.0
+version:     v0.3.0
 summary:     highlight streamed text.
 description: >
   Kale (colour-tail -> cail -> kale) behaves similarily to tail's live-follow mode, but with
@@ -14,5 +14,7 @@ parts:
     plugin: nodejs
     node-packages:
       - rgrannell1/kale
+    node-engine: 7.10.0
 
 confinement: strict
+grade:       devel
