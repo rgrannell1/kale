@@ -1,16 +1,8 @@
 #!/usr/bin/env node
 
-"use strict"
-
-
-
-
+'use strict'
 
 const constants = require('../commons/constants')
-
-
-
-
 
 const docs = `
 Name:
@@ -38,10 +30,10 @@ Arguments:
 	<pattern>...          The text or regular expression pattern(s) to highlight.
 
 Authors:
-	${ constants.packageJson.author }
+	${constants.packageJson.author}
 
 Version:
-	v${ constants.packageJson.version }
+	v${constants.packageJson.version}
 
 Copyright:
 
@@ -67,21 +59,9 @@ Copyright:
 
 `
 
-
-
-
-
-const docopt  = require('docopt').docopt
+const docopt = require('docopt').docopt
 const callApp = require('../cli/call-app')
 
-
-
-
-
 const args = docopt(docs)
-
-
-
-
 
 callApp(args)

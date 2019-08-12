@@ -1,63 +1,55 @@
 
-"use strict"
-
-
-
-
+'use strict'
 
 const millisecondsPerSecond = 1000
 
 const constants = {
-	packageJson: require('../../package'),
-	units: {
-		millisecondsPerSecond
-	},
-	regexp: {
+  packageJson: require('../../package'),
+  units: {
+    millisecondsPerSecond
+  },
+  regexp: {
 
-		syntaxDelimiters: new RegExp([
+    syntaxDelimiters: new RegExp([
 
-			// brackets
-			'\\[',
-			'\\]',
+      // brackets
+      '\\[',
+      '\\]',
 
-			'\\(',
-			'\\)',
+      '\\(',
+      '\\)',
 
-			'\\{',
-			'\\}',
+      '\\{',
+      '\\}',
 
-			// delimiters
-			'\\:',
-			'\\,',
+      // delimiters
+      '\\:',
+      '\\,',
 
-			// string open-closing.
-			'\\"',
-			"\\'"
+      // string open-closing.
+      '\\"',
+      "\\'"
 
-		].join('|'), 'g'),
+    ].join('|'), 'g'),
 
-		numbers: new RegExp([
+    numbers: new RegExp([
 
-			// TODO port to using a regular expression.
-			'[0-9]+'
+      // TODO port to using a regular expression.
+      '[0-9]+'
 
-		].join('|'), 'g'),
+    ].join('|'), 'g'),
 
-		dates: new RegExp([
+    dates: new RegExp([
 
-			// UNIX timestamps.
-			'[0-9]{10}',
-			'[0-9]{13}'
+      // UNIX timestamps.
+      '[0-9]{10}',
+      '[0-9]{13}'
 
-		].join('|'), 'g'),
+    ].join('|'), 'g'),
 
-		hourMinutesSeconds: '[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}'
+    hourMinutesSeconds: '[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}'
 
-	}
+  }
 }
-
-
-
-
 
 module.exports = constants

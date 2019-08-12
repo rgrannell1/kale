@@ -32,6 +32,7 @@
     "docopt": "^0.6.2",
     "err-codes": "rgrannell1/err-codes",
     "is": "rgrannell1/is",
-    "moment": "^2.14.1"
+    "moment": "^2.14.1",
+    "standard": "^13.1.0"
   }
 }
