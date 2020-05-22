@@ -13,6 +13,8 @@ kale
 
 #### v0.4.0
 
+- Added `strip-ansi-stream` to remove ansi escape sequences from input data. 
+
 #### v0.3.0
 
 - Reported nodejs/node #8095, and updated to v7.10.0 which fixed a bug in which Kale only worked for a limited number of lines before halting.
