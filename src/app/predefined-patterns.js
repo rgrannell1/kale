@@ -5,11 +5,21 @@ const constants = require('../commons/constants')
 
 const builtInHighlighters = { }
 
+/**
+ * Default syntax highlighting patterns.
+ *
+ * @returns {Array<any>}
+ */
 builtInHighlighters.default = () => [
   constants.regexp.syntaxDelimiters,
   constants.regexp.numbers
 ]
 
+/**
+ * Highlight the present date.
+ *
+ * @returns {Array<any>}
+ */
 builtInHighlighters.today = () => {
   const now = moment()
   const todayPrefixes = [

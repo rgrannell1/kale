@@ -10,7 +10,7 @@ matchPatterns.literalString = (patterns, line, options) => {
     var previousIndex = -1
     const matchIndices = []
 
-    // get the start index of each match in the line.
+    // -- get the start index of each match in the line.
 
     if (options.displayWholeLine) {
       if (line.indexOf(text) !== -1) {
@@ -23,7 +23,7 @@ matchPatterns.literalString = (patterns, line, options) => {
       }
     }
 
-    // accumulate all new match-indices.
+    // -- accumulate all new match-indices.
 
     return acc.concat(matchIndices.map(matchIndex => {
       return {

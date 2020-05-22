@@ -38,6 +38,16 @@ utils.sequenceBy = (pred, coll) => {
   return out
 }
 
+/**
+ * Return all regexp matches within a string.
+ *
+ * NOTE: This can be probably refactored to .matchAll
+ *
+ * @param {regexp|string} regexp a pattern to match
+ * @param {string} a string to search
+ *
+ * @returns {Array<>} an array of matches.
+ */
 utils.regexMatches = (regexp, string) => {
   var matches = []
   var currentMatch
