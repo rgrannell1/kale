@@ -27,6 +27,9 @@ Options:
 Arguments:
   <pattern>...          The text or regular expression pattern(s) to highlight.
 
+Examples:
+  journalctl | kale
+
 Authors:
   ${constants.packageJson.author}
 
@@ -34,7 +37,6 @@ Version:
   v${constants.packageJson.version}
 
 Copyright:
-
   The MIT License
 
   Copyright (c) 2020 Róisín Grannell

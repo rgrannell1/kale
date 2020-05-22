@@ -1,5 +1,18 @@
 
+const stripAnsiStream = require('strip-ansi-stream')
+const split = require('split')
+
 const readline = require('readline')
+
+const handleErrors = source => error => {
+  console.error('')
+  console.error(`Kale received a stream error from the stream "${source}":`)
+  console.error(error.message)
+  console.error('+++++++++++')
+  console.error(error.stack)
+  console.error('')
+  process.exit(1)
+}
 
 /**
  * Read content from standard input, delimited by lines.
@@ -7,9 +20,14 @@ const readline = require('readline')
  * @param {Function} onLine a function to process each line of text from stdin
  */
 const readStdin = onLine => {
-  readline.createInterface({ input: process.stdin })
-    .on('line', onLine)
-    .on('close', () => {
+  process.stdin
+    .on('error', handleErrors('stdin'))
+    .pipe(stripAnsiStream())
+    .on('error', handleErrors('strip-ansi-stream'))
+    .pipe(split())
+    .on('error', handleErrors('split'))
+    .on('data', onLine)
+    .on('end', () => {
       process.exit(0)
     })
 }
