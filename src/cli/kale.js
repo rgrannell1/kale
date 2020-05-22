@@ -1,61 +1,59 @@
 #!/usr/bin/env node
 
-'use strict'
-
 const constants = require('../commons/constants')
 
 const docs = `
 Name:
-	kale — hightlight streamed text.
+  kale — hightlight streamed text.
 Usage:
-	kale [-e | --regexp] [-f | --fixed-string] [-i | --invert] [-w | --whole-line] <pattern>...
-	kale [-d | --default] [-i | --invert] [-w | --whole-line]
-	kale (-h | --help | --version)
+  kale [-e | --regexp] [-f | --fixed-string] [-i | --invert] [-w | --whole-line] <pattern>...
+  kale [-d | --default] [-i | --invert] [-w | --whole-line]
+  kale (-h | --help | --version)
 
 Description:
 
-	Kale (colour-tail -> cail -> kale) behaves similarily to tail's live-follow mode, but with
-	extra support for highlighting streamed text.
+  Kale (colour-tail -> cail -> kale) behaves similarily to tail's live-follow mode, but with
+  extra support for highlighting streamed text.
 
 Options:
-	-d, --default                       Default, log-format agnostic highlighting.
-	-e, --regexp                        Treat provided patterns as non-capture group regular expressions.
-	-f, --fixed-string                  Treat provided patterns as literal strings.
-	-i, --invert                        Colour-invert any matches.
-	-w, --whole-line                    If a match occurs, display the whole line rather than the matching text.
-	-h, --help                          Display this documentation.
-	--version                           Display the package version.
+  -d, --default                       Default, log-format agnostic highlighting.
+  -e, --regexp                        Treat provided patterns as non-capture group regular expressions.
+  -f, --fixed-string                  Treat provided patterns as literal strings.
+  -i, --invert                        Colour-invert any matches.
+  -w, --whole-line                    If a match occurs, display the whole line rather than the matching text.
+  -h, --help                          Display this documentation.
+  --version                           Display the package version.
 
 Arguments:
-	<pattern>...          The text or regular expression pattern(s) to highlight.
+  <pattern>...          The text or regular expression pattern(s) to highlight.
 
 Authors:
-	${constants.packageJson.author}
+  ${constants.packageJson.author}
 
 Version:
-	v${constants.packageJson.version}
+  v${constants.packageJson.version}
 
 Copyright:
 
-	The MIT License
+  The MIT License
 
-	Copyright (c) 2016 Ryan Grannell
+  Copyright (c) 2020 Róisín Grannell
 
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the Software
-	without restriction, including without limitation the rights to use, copy, modify, merge,
-	publish, distribute, sublicense, and/or sell copies of the Software, and to permit
-	persons to whom the Software is furnished to do so, subject to the following conditions:
+  Permission is hereby granted, free of charge, to any person obtaining a copy of this
+  software and associated documentation files (the "Software"), to deal in the Software
+  without restriction, including without limitation the rights to use, copy, modify, merge,
+  publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+  persons to whom the Software is furnished to do so, subject to the following conditions:
 
-	The above copyright notice and this permission notice shall be included in all copies
-	or substantial portions of the Software.
+  The above copyright notice and this permission notice shall be included in all copies
+  or substantial portions of the Software.
 
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
-	PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-	LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT
-	OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-	OTHER DEALINGS IN THE SOFTWARE.
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+  INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+  PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+  LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT
+  OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+  OTHER DEALINGS IN THE SOFTWARE.
 
 `
 

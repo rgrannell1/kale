@@ -1,15 +1,8 @@
 
-'use strict'
-
-const millisecondsPerSecond = 1000
-
 const constants = {
   packageJson: require('../../package'),
-  units: {
-    millisecondsPerSecond
-  },
   regexp: {
-
+    // -- these common delimiter are highlighted by default.
     syntaxDelimiters: new RegExp([
 
       // brackets
@@ -32,12 +25,7 @@ const constants = {
 
     ].join('|'), 'g'),
 
-    numbers: new RegExp([
-
-      // TODO port to using a regular expression.
-      '[0-9]+'
-
-    ].join('|'), 'g'),
+    numbers: /[0-9]+/g,
 
     dates: new RegExp([
 
@@ -49,7 +37,20 @@ const constants = {
 
     hourMinutesSeconds: '[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}'
 
-  }
+  },
+  // -- colours to display highlighted text.
+  displayColours: [
+    'green',
+    'red',
+    'yellow',
+    'blue',
+    'magenta',
+    'cyan',
+    'black',
+    'white',
+    'gray',
+    'grey'
+  ]
 }
 
 module.exports = constants

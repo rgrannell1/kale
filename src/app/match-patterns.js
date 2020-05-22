@@ -1,6 +1,4 @@
 
-'use strict'
-
 const is = require('is')
 const utils = require('../commons/utils')
 

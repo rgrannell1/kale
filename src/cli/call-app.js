@@ -1,6 +1,4 @@
 
-'use strict'
-
 const app = require('../app/kale')
 
 const callApp = rawArgs => app(callApp.preprocess(rawArgs))

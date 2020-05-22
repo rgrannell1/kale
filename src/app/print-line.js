@@ -1,29 +1,18 @@
 
-'use strict'
-
 const ansi = require('ansi-styles')
 const utils = require('../commons/utils')
+const constants = require('../commons/constants')
 const matchPatterns = require('../app/match-patterns')
 
-const displayText = [
-
-  'green',
-  'red',
-  'yellow',
-  'blue',
-  'magenta',
-  'cyan',
-  'black',
-  'white',
-  'gray',
-  'grey'
-
-].map(colour => {
+/**
+ * Construct an array of functions that colourise provided text.
+ */
+const displayText = constants.displayColours.map(colour => {
   return (text, options) => {
     if (options.invert) {
-      return ansi.inverse.open + ansi[colour].open + text + ansi[colour].close + ansi.inverse.close
+      return `${ansi.inverse.open}${ansi[colour].open}${text}${ansi[colour].close}${ansi.inverse.close}`
     } else {
-      return ansi[colour].open + text + ansi[colour].close
+      return `${ansi[colour].open}${text}${ansi[colour].close}`
     }
   }
 })
