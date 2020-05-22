@@ -4,7 +4,7 @@ const constants = require('../commons/constants')
 
 const docs = `
 Name:
-  kale — hightlight streamed text.
+  kale — highlight streamed text.
 Usage:
   kale [-e | --regexp] [-f | --fixed-string] [-i | --invert] [-w | --whole-line] <pattern>...
   kale [-d | --default] [-i | --invert] [-w | --whole-line]
