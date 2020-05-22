@@ -1,5 +1,5 @@
 
-# kale [![Build Status](https://travis-ci.org/rgrannell1/kale.png?branch=master)](https://travis-ci.org/rgrannell1/kale)
+# kale
 
 Kale (colour-tail → cail → kale) behaves similarily to `tail's` live-follow mode, but with extra support for highlighting streamed text.
 
