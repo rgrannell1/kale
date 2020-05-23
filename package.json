@@ -28,8 +28,6 @@
   "dependencies": {
     "ansi-styles": "2.2.1",
     "docopt": "0.6.2",
-    "err-codes": "github:rgrannell1/err-codes",
-    "is": "github:rgrannell1/is",
     "moment": "2.26.0",
     "split": "1.0.1",
     "standard": "13.1.0",

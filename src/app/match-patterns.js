@@ -1,5 +1,4 @@
 
-const is = require('is')
 const utils = require('../commons/utils')
 
 const matchPatterns = { }
@@ -39,7 +38,9 @@ matchPatterns.literalString = (patterns, line, options) => {
 
 matchPatterns.regexp = (patterns, line, options) => {
   return patterns.reduce((acc, pattern, id) => {
-    const regexp = is.regexp(pattern)
+    const isRegexp = Object.prototype.toString.call(pattern).slice(8, -1).toLowerCase() === 'regexp'
+
+    const regexp = isRegexp
       ? pattern
       : new RegExp(pattern, 'g')
 

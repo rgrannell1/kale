@@ -1,20 +1,24 @@
 name: kale
+grade: stable
 version: v0.4.0
 base: core18
+
 summary: highlight streamed text.
+
 description: >
   Kale (colour-tail -> cail -> kale) behaves similarily to tail's live-follow mode, but with
   extra support for highlighting streamed text.
 
+confinement: strict
+
 apps:
   kale:
     command: bin/kale
+
 parts:
   kale:
     source: .
     plugin: nodejs
-    nodejs-package-manager: npm
+    nodejs-version: 14.3.0
+    nodejs-package-manager: yarn
     build-packages: ['libcurl4-openssl-dev', 'git']
-
-confinement: strict
-grade: devel
