@@ -11,6 +11,17 @@ Kale (colour-tail → cail → kale) behaves similarily to `tail's` live-follow 
 kale
 ```
 
+Kale is built to help find important logs; for example:
+
+```
+kale --whole Timeout < /var/log/syslog | less
+
+# or
+cat /var/log/syslog | kale --whole Timeout | less
+```
+
+highlights timeout logs and passes them to `less` to let you scroll through highlighted text.
+
 ### Changelog
 
 #### v0.5.0
