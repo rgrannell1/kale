@@ -11,9 +11,13 @@ kale
 
 ### Changelog
 
+#### v0.5.0
+
+- Added error-handling for invalid regular expressions
+
 #### v0.4.0
 
-- Added `strip-ansi-stream` to remove ansi escape sequences from input data. 
+- Added `strip-ansi-stream` to remove ansi escape sequences from input data.
 
 #### v0.3.0
 

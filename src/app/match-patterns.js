@@ -36,13 +36,22 @@ matchPatterns.literalString = (patterns, line, options) => {
   }, [])
 }
 
+const createPattern = pattern => {
+  try {
+    return new RegExp(pattern, 'g')
+  } catch (err) {
+    console.error(`rpgen: ${err.message}`)
+    process.exit(1)
+  }
+}
+
 matchPatterns.regexp = (patterns, line, options) => {
   return patterns.reduce((acc, pattern, id) => {
     const isRegexp = Object.prototype.toString.call(pattern).slice(8, -1).toLowerCase() === 'regexp'
 
     const regexp = isRegexp
       ? pattern
-      : new RegExp(pattern, 'g')
+      : createPattern(pattern)
 
     if (options.displayWholeLine) {
       const hasMatch = regexp.test(line)

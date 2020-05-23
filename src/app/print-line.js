@@ -17,6 +17,14 @@ const displayText = constants.displayColours.map(colour => {
   }
 })
 
+/**
+ * Check whether two elements have the same id.
+ *
+ * @param {any} elem0 a character element
+ * @param {any} elem1 a character element
+ *
+ * @returns {Boolean}
+ */
 const hasSameId = (elem0, elem1) => {
   return elem0.id === elem1.id
 }
