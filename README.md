@@ -3,6 +3,8 @@
 
 Kale (colour-tail → cail → kale) behaves similarily to `tail's` live-follow mode, but with extra support for highlighting streamed text.
 
+![Example Usage](example.png)
+
 ### Usage
 
 ```
