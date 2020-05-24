@@ -22,6 +22,14 @@ cat /var/log/syslog | kale --whole Timeout | less
 
 highlights timeout logs and passes them to `less` to let you scroll through highlighted text.
 
+### Installation
+
+On Linux distributions that support Snap packages, run:
+
+```
+sudo snap install kale
+```
+
 ### Changelog
 
 #### v0.5.0
