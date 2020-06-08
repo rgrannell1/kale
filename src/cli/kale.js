@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+const handleErrors = require('../commons/handle-errors')
+
 const constants = require('../commons/constants')
 
 const docs = `
@@ -98,4 +100,4 @@ const callApp = require('../cli/call-app')
 
 const args = docopt(docs)
 
-callApp(args)
+callApp(args).catch(handleErrors)

@@ -1,29 +1,15 @@
 
-const userFailingErrorMesasage = `Something has went terribly wrong!
-Please report the following error message to https://github.com/rgrannell1/kale/issues,
-(along with the input text if possible):
-`
-
+const fs = require('fs').promises
 const events = require('events')
 const errors = require('@rgrannell/errors')
 const constants = require('../commons/constants')
 const predefinedPatterns = require('../app/predefined-patterns')
 const readStdin = require('../commons/read-stdin')
 const printLine = require('../app/print-line')
+const handleErrors = require('../commons/handle-errors')
 
 // -- display any uncaught errors.
-process.on('uncaughtException', err => {
-  if (err.code) {
-    console.error(err.message)
-  } else {
-    console.error(userFailingErrorMesasage)
-
-    console.error(err.message)
-    console.error(err.stack)
-  }
-
-  process.exit(1)
-})
+process.on('uncaughtException', handleErrors)
 
 /**
  * The application function.
@@ -32,8 +18,8 @@ process.on('uncaughtException', err => {
  *
  * @returns {EventEmitter} emits formatted text.
  */
-const kale = rawArgs => {
-  const args = kale.preprocess(rawArgs)
+const kale = async rawArgs => {
+  const args = await kale.preprocess(rawArgs)
 
   // -- display the version.
   if (args.version) {
@@ -86,7 +72,7 @@ const kale = rawArgs => {
  *
  * @returns {Object} processed arguments.
  */
-kale.preprocess = rawArgs => {
+kale.preprocess = async rawArgs => {
   const { codes } = constants
   if (!rawArgs) {
     throw errors.badInput('no arguments provided', codes.BAD_INPUT)
@@ -98,6 +84,48 @@ kale.preprocess = rawArgs => {
 
   if (!rawArgs.config && rawArgs.val) {
     throw errors.badInput('a variable substitution was provided, but no config file containing patterns was specified.', codes.BAD_INPUT)
+  }
+
+  try {
+    let buffer = await fs.readFile(rawArgs.config)
+    var content = buffer.toString()
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      throw errors.missingConfigFile(`the config file "${rawArgs.config}" could not be found.`, codes.MISSING_CONFIG_FILE)
+    }
+    throw err
+  }
+
+  try {
+    var config = JSON.parse(content)
+  } catch (err) {
+    throw errors.badConfigFile(`failed to parse "${rawArgs.config}" as JSON after reading.`, codes.BAD_CONFIG_FILE)
+  }
+
+  const configProperties = Object.keys(config)
+
+  if (!configProperties.includes('regexp') && !configProperties.includes('fixed')) {
+    throw errors.badConfigFile(`the object in "${rawArgs.config}" was missing both a "regexp" and "fixed" property; at least one must be specified.`, codes.BAD_CONFIG_FILE)
+  }
+
+  if (typeof config.regexp !== 'object' || config.regexp === null) {
+    throw errors.badConfigFile(`property "regexp" was not a string`, codes.BAD_CONFIG_FILE)
+  }
+
+  for (const regexpName of Object.keys(config.regexp)) {
+    const val = config.regexp[regexpName]
+
+    if (typeof val !== 'string') {
+      throw errors.badConfigFile(`property "regexp.${regexpName}" was not a string; actual type was ${typeof val}.`, codes.BAD_CONFIG_FILE)
+    }
+  }
+
+  for (const fixedName of Object.keys(config.fixed)) {
+    const val = config.fixed[fixedName]
+
+    if (typeof val !== 'string') {
+      throw errors.badConfigFile(`property "fixedName.${fixedName}" was not a string; actual type was ${typeof val}.`, codes.BAD_CONFIG_FILE)
+    }
   }
 
   return rawArgs

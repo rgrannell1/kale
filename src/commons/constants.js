@@ -52,7 +52,9 @@ const constants = {
     'grey'
   ],
   codes: {
-    BAD_INPUT: 'KALE_001'
+    BAD_INPUT: 'KALE_001',
+    MISSING_CONFIG_FILE: 'KALE_002',
+    BAD_CONFIG_FILE: 'KALE_003'
   }
 }
 
