@@ -54,7 +54,8 @@ const constants = {
   codes: {
     BAD_INPUT: 'KALE_001',
     MISSING_CONFIG_FILE: 'KALE_002',
-    BAD_CONFIG_FILE: 'KALE_003'
+    BAD_CONFIG_FILE: 'KALE_003',
+    BAD_REGEXP: 'KALE_004'
   }
 }
 

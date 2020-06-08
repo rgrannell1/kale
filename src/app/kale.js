@@ -108,24 +108,35 @@ kale.preprocess = async rawArgs => {
     throw errors.badConfigFile(`the object in "${rawArgs.config}" was missing both a "regexp" and "fixed" property; at least one must be specified.`, codes.BAD_CONFIG_FILE)
   }
 
-  if (typeof config.regexp !== 'object' || config.regexp === null) {
-    throw errors.badConfigFile(`property "regexp" was not a string`, codes.BAD_CONFIG_FILE)
-  }
+  if (config.regexp) {
+    if (typeof config.regexp !== 'object' || config.regexp === null) {
+      throw errors.badConfigFile(`property "regexp" was not a object`, codes.BAD_CONFIG_FILE)
+    }
 
-  for (const regexpName of Object.keys(config.regexp)) {
-    const val = config.regexp[regexpName]
+    for (const regexpName of Object.keys(config.regexp)) {
+      const val = config.regexp[regexpName]
 
-    if (typeof val !== 'string') {
-      throw errors.badConfigFile(`property "regexp.${regexpName}" was not a string; actual type was ${typeof val}.`, codes.BAD_CONFIG_FILE)
+      if (typeof val !== 'string') {
+        throw errors.badConfigFile(`property "regexp.${regexpName}" was not a string; actual type was ${typeof val}.`, codes.BAD_CONFIG_FILE)
+      }
+
+      try {
+        new RegExp(val)
+      } catch (err) {
+        throw errors.badRegExp(`regular expression "${val}" did not compile`, codes.BAD_REGEXP)
+      }
     }
   }
 
-  for (const fixedName of Object.keys(config.fixed)) {
-    const val = config.fixed[fixedName]
+  if (config.fixed) {
+    for (const fixedName of Object.keys(config.fixed)) {
+      const val = config.fixed[fixedName]
 
-    if (typeof val !== 'string') {
-      throw errors.badConfigFile(`property "fixedName.${fixedName}" was not a string; actual type was ${typeof val}.`, codes.BAD_CONFIG_FILE)
+      if (typeof val !== 'string') {
+        throw errors.badConfigFile(`property "fixedName.${fixedName}" was not a string; actual type was ${typeof val}.`, codes.BAD_CONFIG_FILE)
+      }
     }
+
   }
 
   return rawArgs
