@@ -5,6 +5,7 @@ Please report the following error message to https://github.com/rgrannell1/kale/
 `
 
 const events = require('events')
+const errors = require('@rgrannell/errors')
 const constants = require('../commons/constants')
 const predefinedPatterns = require('../app/predefined-patterns')
 const readStdin = require('../commons/read-stdin')
@@ -12,10 +13,14 @@ const printLine = require('../app/print-line')
 
 // -- display any uncaught errors.
 process.on('uncaughtException', err => {
-  console.error(userFailingErrorMesasage)
+  if (err.code) {
+    console.error(err.message)
+  } else {
+    console.error(userFailingErrorMesasage)
 
-  console.error(err.message)
-  console.error(err.stack)
+    console.error(err.message)
+    console.error(err.stack)
+  }
 
   process.exit(1)
 })
@@ -82,6 +87,19 @@ const kale = rawArgs => {
  * @returns {Object} processed arguments.
  */
 kale.preprocess = rawArgs => {
+  const { codes } = constants
+  if (!rawArgs) {
+    throw errors.badInput('no arguments provided', codes.BAD_INPUT)
+  }
+
+  if (!rawArgs.config && rawArgs.name) {
+    throw errors.badInput('a pattern name was provided, but no config file containing patterns was specified.', codes.BAD_INPUT)
+  }
+
+  if (!rawArgs.config && rawArgs.val) {
+    throw errors.badInput('a variable substitution was provided, but no config file containing patterns was specified.', codes.BAD_INPUT)
+  }
+
   return rawArgs
 }
 

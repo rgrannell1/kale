@@ -50,7 +50,10 @@ const constants = {
     'white',
     'gray',
     'grey'
-  ]
+  ],
+  codes: {
+    BAD_INPUT: 'KALE_001'
+  }
 }
 
 module.exports = constants

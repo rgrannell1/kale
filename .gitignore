@@ -3,3 +3,5 @@ npm-debug.log
 snapcraft/*
 !snapcraft.yaml
 LICENSE-MIT.md
+*.snap
+patterns.json

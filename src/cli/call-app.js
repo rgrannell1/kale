@@ -14,7 +14,11 @@ callApp.preprocess = rawArgs => {
     display: true,
 
     patterns: rawArgs['<pattern>'],
-    version: rawArgs['--version']
+    version: rawArgs['--version'],
+
+    config: rawArgs['--config'],
+    name: rawArgs['--name'],
+    val: rawArgs['--val']
   }
 }
 

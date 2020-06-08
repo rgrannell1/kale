@@ -6,7 +6,8 @@ const docs = `
 Name:
   kale — highlight streamed text.
 Usage:
-  kale [-e | --regexp] [-f | --fixed-string] [-i | --invert] [-w | --whole-line] <pattern>...
+  kale [-c <fpath> | --config <fpath>] [(-n <name> | --name <name>)...] [(-x <val> | --val <val>)...] [-e | --regexp] [-f | --fixed-string] [-i | --invert] [-w | --whole-line] <pattern>...
+  kale [-c <fpath> | --config <fpath>] [(-n <name> | --name <name>)...] [(-x <val> | --val <val>)...] [-d | --default] [-i | --invert] [-w | --whole-line]
   kale [-d | --default] [-i | --invert] [-w | --whole-line]
   kale (-h | --help | --version)
 
@@ -16,10 +17,13 @@ Description:
   extra support for highlighting streamed text.
 
 Options:
+  -c <fpath>, --config <fpath>        Load named regular-expressions and fixed-strings from a pattern file. See below for more details.
   -d, --default                       Default, log-format agnostic highlighting.
   -e, --regexp                        Treat provided patterns as non-capture group regular expressions.
   -f, --fixed-string                  Treat provided patterns as literal strings.
   -i, --invert                        Colour-invert any matches.
+  -n <name>, --name <name>            The name of a saved pattern. Can be repeated.
+  -x <val>, --val <val>               Values for each variable in a saved pattern.
   -w, --whole-line                    If a match occurs, display the whole line rather than the matching text.
   -h, --help                          Display this documentation.
   --version                           Display the package version.
@@ -27,8 +31,38 @@ Options:
 Arguments:
   <pattern>...          The text or regular expression pattern(s) to highlight.
 
+Named Regular Expressions:
+  Kale allows regular expressions and fixed strings to be provided directly using -e and -f respectively. To reuse these patterns,
+  they can be saved to a .json file. An example file containing two patterns - the regexp "numbers" and fixed string "outLogger" - is shown below:
+
+  >  }
+  >    "regexp": {
+  >      "number": "[0-9]+"
+  >    },
+  >    "fixed": {
+  >      "ourLogger": "graylog"
+  >    }
+  > }
+
+  patterns stored in such a file supports variables, to further aid reuse. For example, adding the pattern:
+
+  > "exitStatus": "#__0__ exited with status __1__"
+
+  and calling:
+
+  > cat mylog.txt | kale -c patterns.json -n exitStatus -x git -x 127
+  > cat mylog.txt | kale -c patterns.json -n exitStatus -x java -x 1
+
+  is equivalent to running:
+
+  > cat mylog.txt | kale -f "git exited with status 127"
+  > cat mylog.txt | kale -f "java exited with status 1"
+
+  directly.
+
 Examples:
   journalctl | kale
+  journalctl | kale -c patterns.json -n ourLogger --whole-line
 
 Authors:
   ${constants.packageJson.author}
@@ -59,7 +93,7 @@ Copyright:
 
 `
 
-const docopt = require('docopt').docopt
+const { docopt } = require('docopt')
 const callApp = require('../cli/call-app')
 
 const args = docopt(docs)
