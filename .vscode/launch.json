@@ -11,7 +11,10 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/src/cli/index.js"
+      "program": "${workspaceFolder}/src/cli/kale.js",
+      "args": [
+        "-c", "patterns.json"
+      ]
     }
   ]
 }

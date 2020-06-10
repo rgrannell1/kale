@@ -7,7 +7,6 @@ callApp.preprocess = rawArgs => {
   return {
     regexp: rawArgs['--regexp'],
     fixedString: rawArgs['--fixed-string'],
-    default: rawArgs['--default'],
     invert: rawArgs['--invert'],
     displayWholeLine: rawArgs['--whole-line'],
 

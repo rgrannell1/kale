@@ -21,17 +21,14 @@
   },
   "homepage": "https://github.com/rgrannell1/kale#readme",
   "devDependencies": {
-    "babel-eslint": "^6.0.4",
-    "eslint": "^4.18.2",
-    "expect.js": "^0.3.1"
+    "standard": "^13.1.0"
   },
   "dependencies": {
     "@rgrannell/errors": "^9.1.0",
     "ansi-styles": "2.2.1",
-    "docopt": "0.6.2",
     "moment": "2.26.0",
+    "neodoc": "2.0.2",
     "split": "1.0.1",
-    "standard": "13.1.0",
     "strip-ansi-stream": "1.0.0"
   }
 }

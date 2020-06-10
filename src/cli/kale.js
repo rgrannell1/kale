@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+const neodoc = require('neodoc')
+
 const handleErrors = require('../commons/handle-errors')
 
 const constants = require('../commons/constants')
@@ -9,8 +11,8 @@ Name:
   kale — highlight streamed text.
 Usage:
   kale [-c <fpath> | --config <fpath>] [(-n <name> | --name <name>)...] [(-x <val> | --val <val>)...] [-e | --regexp] [-f | --fixed-string] [-i | --invert] [-w | --whole-line] <pattern>...
-  kale [-c <fpath> | --config <fpath>] [(-n <name> | --name <name>)...] [(-x <val> | --val <val>)...] [-d | --default] [-i | --invert] [-w | --whole-line]
-  kale [-d | --default] [-i | --invert] [-w | --whole-line]
+  kale [-c <fpath> | --config <fpath>] [(-n <name> | --name <name>)...] [(-x <val> | --val <val>)...] [-i | --invert] [-w | --whole-line]
+  kale [-i | --invert] [-w | --whole-line]
   kale (-h | --help | --version)
 
 Description:
@@ -20,7 +22,6 @@ Description:
 
 Options:
   -c <fpath>, --config <fpath>        Load named regular-expressions and fixed-strings from a pattern file. See below for more details.
-  -d, --default                       Default, log-format agnostic highlighting.
   -e, --regexp                        Treat provided patterns as non-capture group regular expressions.
   -f, --fixed-string                  Treat provided patterns as literal strings.
   -i, --invert                        Colour-invert any matches.
@@ -98,6 +99,6 @@ Copyright:
 const { docopt } = require('docopt')
 const callApp = require('../cli/call-app')
 
-const args = docopt(docs)
+const args = neodoc.run(docs)
 
 callApp(args).catch(handleErrors)

@@ -2,7 +2,6 @@
 const ansi = require('ansi-styles')
 const utils = require('../commons/utils')
 const constants = require('../commons/constants')
-const matchPatterns = require('../app/match-patterns')
 
 /**
  * Construct an array of functions that colourise provided text.
@@ -29,73 +28,74 @@ const hasSameId = (elem0, elem1) => {
   return elem0.id === elem1.id
 }
 
-const printLine = { }
+const formatText = (chars, id, options) => {
+  if (Number.isInteger(id)) {
+    const colourId = id % displayText.length
+    return displayText[colourId](chars, options)
+  } else {
+    return chars
+  }
+}
 
 /**
- * Print regular expression or string matches
+ * Print regular expression or string matches.
  *
- * @param {Function} matcher a functino to match patterns in a line of text.
+ * Matches
+ *
  * @param {Array<string | regexp>} patterns an array of patterns
  * @param {string} line a line of text
  * @param {Object} options any additional options.
  */
-const printHighlightedLine = (matcher, patterns, line, options) => {
-  const matchIndices = matcher(patterns, line, options)
+const printLine = (patterns, line, options) => {
+  const allMatches = [ ]
 
-  // -- tag each character with a pattern id (default to -1)
-  const chars = line.split('').map(char => ({ char, id: -1 }))
+  let id = 0
+  // -- match each pattern as many times as possible using `matchAll`
+  for (const pattern of patterns) {
+    const type = Object.prototype.toString.call(pattern).slice(8, -1)
 
-  for (const val of matchIndices) {
-    for (let ith = val.start; ith <= val.end; ++ith) {
-      chars[ith].id = val.id
+    const matches = [...line.matchAll(pattern)]
+
+    matches.forEach(match => {
+      allMatches.push({
+        start: match.index,
+        end: match.index + match[0].length,
+        id
+      })
+    })
+    ++id
+  }
+
+  // -- convert to characters and indices.
+  const sequence = line.split('').map((char, index) => {
+    return {
+      char,
+      index
+    }
+  })
+
+  // -- tag each character by match, preferring later matches.
+  for (const match of allMatches) {
+    for (const data of sequence) {
+      if (data.index >= match.start && data.index < match.end) {
+        data.id = match.id
+      }
     }
   }
 
-  // -- group adjacent matching id's into sublists,
-  // -- then colourise each id and print the message.
+  let output = ''
+
+  // -- colourise and sequence by id.
   const displayLine = utils
-    .sequenceBy(hasSameId, chars)
-    .map(sequence => {
+    .sequenceBy(hasSameId, sequence)
+    .map(stretch => {
+      const chars = stretch.map(stretchData => stretchData.char).join('')
+      const id = stretch[0].id
 
-      // -- get the sequence id; sequence will always be length one or greater.
-      const id = sequence[0].id
-      // -- join the sequence letters into a line
-      const charSequence = sequence.map(val => val.char).join('')
-
-      const isMissing = id === -1
-
-      // -- modulo the match id so one of the colour functions can be used.
-      const colourId = id % displayText.length
-
-      return isMissing
-        ? charSequence
-        : displayText[colourId](charSequence, options)
+      output += formatText(chars, id, options)
     })
-    .join('')
 
-  return displayLine
-}
-
-/**
- * Format a string to highlight string-literal patterns
- *
- * @param {Array<string>} patterns an array of strings to match
- * @param {string} line a line of text
- * @param {Object} options an object of additional options
- */
-printLine.literalString = (patterns, line, options) => {
-  return printHighlightedLine(matchPatterns.literalString, patterns, line, options)
-}
-
-/**
- * Format a string to highlight regexp patterns
- *
- * @param {Array<string>} patterns an array of regexp to match
- * @param {string} line a line of text
- * @param {Object} options an object of additional options
- */
-printLine.regexp = (patterns, line, options) => {
-  return printHighlightedLine(matchPatterns.regexp, patterns, line, options)
-}
+    return output
+  }
 
 module.exports = printLine
