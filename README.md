@@ -34,7 +34,9 @@ sudo snap install kale
 
 #### v0.6.0
 
-- Added support for named expressions from pattern files
+- Added support for named patterns drawn from ,json pattern files (see CLI help for more details)
+- Removed `--default` flag, since this was always applied when no patterns were provided
+- Added experimental variable support to named patterns. The exact syntax may change during the next release.
 
 #### v0.5.0
 

@@ -2,8 +2,6 @@
 const stripAnsiStream = require('strip-ansi-stream')
 const split = require('split')
 
-const readline = require('readline')
-
 const handleErrors = source => error => {
   console.error('')
   console.error(`Kale received a stream error from the stream "${source}":`)

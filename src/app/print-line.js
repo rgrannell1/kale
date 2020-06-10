@@ -47,13 +47,11 @@ const formatText = (chars, id, options) => {
  * @param {Object} options any additional options.
  */
 const printLine = (patterns, line, options) => {
-  const allMatches = [ ]
+  const allMatches = []
 
   let id = 0
   // -- match each pattern as many times as possible using `matchAll`
   for (const pattern of patterns) {
-    const type = Object.prototype.toString.call(pattern).slice(8, -1)
-
     const matches = [...line.matchAll(pattern)]
 
     matches.forEach(match => {
@@ -86,7 +84,7 @@ const printLine = (patterns, line, options) => {
   let output = ''
 
   // -- colourise and sequence by id.
-  const displayLine = utils
+  utils
     .sequenceBy(hasSameId, sequence)
     .map(stretch => {
       const chars = stretch.map(stretchData => stretchData.char).join('')
@@ -95,7 +93,7 @@ const printLine = (patterns, line, options) => {
       output += formatText(chars, id, options)
     })
 
-    return output
-  }
+  return output
+}
 
 module.exports = printLine

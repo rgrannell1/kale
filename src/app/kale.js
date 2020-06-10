@@ -18,8 +18,8 @@ const getPatterns = args => {
     const patterns = []
 
     for (const name of args.name) {
-      const regexpHasName = args.config.regexp.hasOwnProperty(name)
-      const fixedHasName = args.config.fixed.hasOwnProperty(name)
+      const regexpHasName = Object.prototype.hasOwnProperty.call(args.config.regexp, name)
+      const fixedHasName = Object.prototype.hasOwnProperty.call(args.config.fixed, name)
 
       if (regexpHasName) {
         patterns.push(args.config.regexp[name])
@@ -60,10 +60,6 @@ const kale = async rawArgs => {
   }
 
   const outEmitter = new events.EventEmitter()
-
-  const mode = args.fixedString
-    ? 'literalString'
-    : 'regexp'
 
   // -- a function to determine how text is printed.
   const patterns = getPatterns(args)
@@ -111,7 +107,7 @@ const preprocessConfig = async rawArgs => {
   }
 
   try {
-    let buffer = await fs.readFile(rawArgs.config)
+    const buffer = await fs.readFile(rawArgs.config)
     var content = buffer.toString()
   } catch (err) {
     if (err.code === 'ENOENT') {
@@ -168,7 +164,6 @@ const preprocessConfig = async rawArgs => {
         throw errors.badConfigFile(`property "fixedName.${fixedName}" was not a string; actual type was ${typeof val}.`, codes.BAD_CONFIG_FILE)
       }
     }
-
   }
 
   return config
@@ -195,8 +190,8 @@ const preprocessName = args => {
   const patterns = []
 
   for (const name of args.name) {
-    const regexpHasName = args.config.regexp.hasOwnProperty(name)
-    const fixedHasName = args.config.fixed.hasOwnProperty(name)
+    const regexpHasName = Object.prototype.hasOwnProperty.call(args.config.regexp, name)
+    const fixedHasName = Object.prototype.hasOwnProperty.call(args.config.fixed, name)
 
     if (regexpHasName && fixedHasName) {
       throw errors.badInput(`both "fixed" and "regexp" have properties named "${name}"`, codes.BAD_INPUT)

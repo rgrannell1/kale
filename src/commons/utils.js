@@ -38,43 +38,4 @@ utils.sequenceBy = (pred, coll) => {
   return out
 }
 
-/**
- * Return all regexp matches within a string.
- *
- * NOTE: This can be probably refactored to .matchAll
- *
- * @param {regexp|string} regexp a pattern to match
- * @param {string} a string to search
- *
- * @returns {Array<>} an array of matches.
- */
-utils.regexMatches = (regexp, string) => {
-  var matches = []
-  var currentMatch
-
-  while ((currentMatch = regexp.exec(string)) !== null) {
-    matches.push(currentMatch)
-  }
-
-  return matches.map(match => {
-    const matchData = {
-      match: null,
-      captureGroups: [],
-      index: match.index
-    }
-
-    Object.keys(match).forEach(key => {
-      const numericKey = parseInt(key, 10)
-
-      if (numericKey === 0) {
-        matchData.match = match[0]
-      } else if (numericKey === numericKey) {
-        matchData.captureGroups[numericKey - 1] = match[numericKey]
-      }
-    })
-
-    return matchData
-  })
-}
-
 module.exports = utils
