@@ -1,6 +1,8 @@
 
 # kale
 
+![Banner](banner.png)
+
 Kale (colour-tail → cail → kale) behaves similarily to `tail's` live-follow mode, but with extra support for highlighting streamed text.
 
 ![Example Usage](example.png)
@@ -59,6 +61,12 @@ sudo snap install kale
 - Added options to highlight whole-line, — --whole-line — rather than individual matches, which is useful for spotting key-lines in a log-file.
 
 - uncaught errors are now presented tidily to the user.
+
+### Build
+
+```sh
+snapcraft
+```
 
 ### License
 
