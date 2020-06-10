@@ -62,11 +62,9 @@ sudo snap install kale
 
 - uncaught errors are now presented tidily to the user.
 
-### Build
+### Icon
 
-```sh
-snapcraft
-```
+The project icon was made by Amy Devereux as part of her project 365cons and is used with permission. If you wish to use this icon yourself, contact Amy.
 
 ### License
 
