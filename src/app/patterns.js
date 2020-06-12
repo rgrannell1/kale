@@ -112,7 +112,7 @@ patternUtils.getPatterns = args => {
     ? args.patterns
     : patternUtils.builtInHighlighters.default()
 
-    return patternUtils.substituteValues(args.val, patterns)
+  return patternUtils.substituteValues(args.val, patterns)
 }
 
 module.exports = patternUtils

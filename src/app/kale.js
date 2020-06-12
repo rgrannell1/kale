@@ -76,6 +76,10 @@ const preprocessConfig = async rawArgs => {
     throw errors.badInput('a variable substitution was provided, but no config file containing patterns was specified.', codes.BAD_INPUT)
   }
 
+  if (rawArgs.config && rawArgs.patterns) {
+    throw errors.badInput('cannot provide both config and patterns.', codes.BAD_INPUT)
+  }
+
   if (!rawArgs.config) {
     return
   }
