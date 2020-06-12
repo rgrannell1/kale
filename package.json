@@ -1,7 +1,7 @@
 {
   "name": "kale",
-  "version": "0.6.0",
-  "description": "highlight logs",
+  "version": "0.8.0",
+  "description": "Highlight Logs",
   "author": "Róisín Grannell <r.grannell2@gmail.com>",
   "scripts": {
     "standard": "npx standard 'src/**'",

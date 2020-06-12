@@ -34,6 +34,10 @@ sudo snap install kale
 
 ### Changelog
 
+#### v0.8.0
+
+- Patched a recent error in whole-line support.
+
 #### v0.7.0
 
 - Added an icon

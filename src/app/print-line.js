@@ -83,10 +83,15 @@ const printLine = (patterns, line, options) => {
 
   let output = ''
 
+  if (options.displayWholeLine && allMatches.length > 0) {
+    const maxId = allMatches[allMatches.length - 1].id
+    return displayText[maxId](line, options)
+  }
+
   // -- colourise and sequence by id.
   utils
     .sequenceBy(hasSameId, sequence)
-    .map(stretch => {
+    .forEach(stretch => {
       const chars = stretch.map(stretchData => stretchData.char).join('')
       const id = stretch[0].id
 

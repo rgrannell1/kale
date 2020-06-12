@@ -16,9 +16,7 @@ Usage:
   kale (-h | --help | --version)
 
 Description:
-
-  Kale (colour-tail -> cail -> kale) behaves similarily to tail's live-follow mode, but with
-  extra support for highlighting streamed text.
+  Kale is a command-line tool that highlights logs.
 
 Options:
   -c <fpath>, --config <fpath>        Load named regular-expressions and fixed-strings from a pattern file. See below for more details.

@@ -1,21 +1,22 @@
 name: kale
 grade: stable
-version: v0.6.0
+version: v0.8.0
 base: core18
 
 icon: icon.png
 
-summary: highlight logs.
+summary: Highlight Logs
 
 description: >
-  Kale (colour-tail -> cail -> kale) behaves similarily to tail's live-follow mode, but with
-  extra support for highlighting streamed text.
+  Kale is a command-line tool that highlights logs.
 
 confinement: strict
 
 apps:
   kale:
     command: bin/kale
+    plugs:
+      - home
 
 parts:
   kale:
