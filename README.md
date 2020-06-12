@@ -36,13 +36,14 @@ sudo snap install kale
 
 #### v0.7.0
 
+- Added an icon
 - Fixed validation of config files; specifying only literals in a config file caused undefined errors.
+- Added experimental variable support to named patterns. The exact syntax may change during the next release.
 
 #### v0.6.0
 
 - Added support for named patterns drawn from ,json pattern files (see CLI help for more details)
 - Removed `--default` flag, since this was always applied when no patterns were provided
-- Added experimental variable support to named patterns. The exact syntax may change during the next release.
 
 #### v0.5.0
 
