@@ -3,7 +3,7 @@ grade: stable
 version: v0.6.0
 base: core18
 
-icon: icon.svg
+icon: icon.png
 
 summary: highlight logs.
 
