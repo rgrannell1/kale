@@ -1,4 +1,9 @@
 
+const {
+  console,
+  process
+} = require('../commons/builtins')
+
 const userFailingErrorMesasage = `Something has went terribly wrong!
 Please report the following error message to https://github.com/rgrannell1/kale/issues,
 (along with the input text if possible):

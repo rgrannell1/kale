@@ -3,45 +3,19 @@ const fs = require('fs').promises
 const events = require('events')
 const errors = require('@rgrannell/errors')
 const constants = require('../commons/constants')
-const predefinedPatterns = require('../app/predefined-patterns')
+const patternUtils = require('./patterns')
 const readStdin = require('../commons/read-stdin')
 const printLine = require('../app/print-line')
 const handleErrors = require('../commons/handle-errors')
+const {
+  console,
+  process
+} = require('../commons/builtins')
 
 const { codes } = constants
 
 // -- display any uncaught errors.
 process.on('uncaughtException', handleErrors)
-
-const getPatterns = args => {
-  if (args.config) {
-    const patterns = []
-
-    for (const name of args.name) {
-      const regexpHasName = Object.prototype.hasOwnProperty.call(args.config.regexp, name)
-      const fixedHasName = Object.prototype.hasOwnProperty.call(args.config.fixed, name)
-
-      if (regexpHasName) {
-        patterns.push(args.config.regexp[name])
-      } else if (fixedHasName) {
-        patterns.push(args.config.fixed[name])
-      } else {
-        throw errors.badInput(`neither "fixed" and "regexp" have a property named "${name}"`, codes.BAD_INPUT)
-      }
-    }
-
-    return patterns
-  }
-
-  const patternsProvided = args.patterns && args.patterns.length > 0
-
-  // -- use provided patterns or fallback to a default.
-  const patterns = patternsProvided
-    ? args.patterns
-    : predefinedPatterns.default()
-
-  return patterns
-}
 
 /**
  * The application function.
@@ -62,7 +36,7 @@ const kale = async rawArgs => {
   const outEmitter = new events.EventEmitter()
 
   // -- a function to determine how text is printed.
-  const patterns = getPatterns(args)
+  const patterns = patternUtils.getPatterns(args)
 
   readStdin(line => {
     // -- format the text to print
@@ -98,7 +72,7 @@ const preprocessConfig = async rawArgs => {
     throw errors.badInput('a pattern name was provided, but no config file containing patterns was specified.', codes.BAD_INPUT)
   }
 
-  if (!rawArgs.config && rawArgs.val && rawArgs.name.length > 0) {
+  if (!rawArgs.config && rawArgs.val && rawArgs.val.length > 0) {
     throw errors.badInput('a variable substitution was provided, but no config file containing patterns was specified.', codes.BAD_INPUT)
   }
 
@@ -145,7 +119,7 @@ const preprocessConfig = async rawArgs => {
       }
 
       try {
-        config.regexp[regexpName] = new RegExp(val, 'g')
+        new RegExp(val, 'g')
       } catch (err) {
         throw errors.badRegExp(`regular expression "${val}" did not compile`, codes.BAD_REGEXP)
       }
@@ -190,8 +164,8 @@ const preprocessName = args => {
   const patterns = []
 
   for (const name of args.name) {
-    const regexpHasName = Object.prototype.hasOwnProperty.call(args.config.regexp, name)
-    const fixedHasName = Object.prototype.hasOwnProperty.call(args.config.fixed, name)
+    const regexpHasName = Object.prototype.hasOwnProperty.call(args.config.regexp || {}, name)
+    const fixedHasName = Object.prototype.hasOwnProperty.call(args.config.fixed || {}, name)
 
     if (regexpHasName && fixedHasName) {
       throw errors.badInput(`both "fixed" and "regexp" have properties named "${name}"`, codes.BAD_INPUT)
@@ -202,6 +176,16 @@ const preprocessName = args => {
   }
 
   return patterns
+}
+
+const preprocessVal = args => {
+  if (!args.val) {
+    return
+  }
+  if (args.val && !args.config) {
+    throw errors.badInput(`supplied values are only supported when a config file is specified`, codes.BAD_INPUT)
+  }
+
 }
 
 /**
@@ -220,6 +204,7 @@ kale.preprocess = async rawArgs => {
   args.config = await preprocessConfig(rawArgs)
 
   preprocessName(args)
+  preprocessVal(args)
 
   return args
 }

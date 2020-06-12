@@ -1,11 +1,12 @@
 {
   "name": "kale",
   "version": "0.6.0",
-  "description": "",
+  "description": "highlight logs",
   "author": "Róisín Grannell <r.grannell2@gmail.com>",
   "scripts": {
     "standard": "npx standard 'src/**'",
-    "standard:fix": "npx standard 'src/**' --fix"
+    "standard:fix": "npx standard 'src/**' --fix",
+    "test": "npx test --coverage-report=lcov"
   },
   "preferGlobal": true,
   "bin": {
@@ -21,13 +22,17 @@
   },
   "homepage": "https://github.com/rgrannell1/kale#readme",
   "devDependencies": {
-    "standard": "^13.1.0"
+    "standard": "13.1.0",
+    "tap": "^14.10.7",
+    "testdouble": "^3.16.0"
   },
   "dependencies": {
     "@rgrannell/errors": "^9.1.0",
     "ansi-styles": "2.2.1",
     "moment": "2.26.0",
+    "nanoid": "^3.1.9",
     "neodoc": "2.0.2",
+    "npm": "^6.14.5",
     "split": "1.0.1",
     "strip-ansi-stream": "1.0.0"
   }

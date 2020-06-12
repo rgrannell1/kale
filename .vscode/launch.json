@@ -13,7 +13,9 @@
       ],
       "program": "${workspaceFolder}/src/cli/kale.js",
       "args": [
-        "-c", "patterns.json"
+        "-c", "patterns.json",
+        "-n", "worm",
+        "-x", "xps audit"
       ]
     }
   ]

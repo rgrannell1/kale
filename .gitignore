@@ -5,3 +5,4 @@ snapcraft/*
 LICENSE-MIT.md
 *.snap
 patterns.json
+.nyc_output

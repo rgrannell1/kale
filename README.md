@@ -34,6 +34,10 @@ sudo snap install kale
 
 ### Changelog
 
+#### v0.7.0
+
+- Fixed validation of config files; specifying only literals in a config file caused undefined errors.
+
 #### v0.6.0
 
 - Added support for named patterns drawn from ,json pattern files (see CLI help for more details)

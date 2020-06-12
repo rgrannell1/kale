@@ -1,6 +1,10 @@
 
 const stripAnsiStream = require('strip-ansi-stream')
 const split = require('split')
+const {
+  console,
+  process
+} = require('../commons/builtins')
 
 const handleErrors = source => error => {
   console.error('')
