@@ -48,7 +48,7 @@ builtInHighlighters.today = () => {
 patternUtils.builtInHighlighters = builtInHighlighters
 
 /**
- * Substitute patterns.
+ * Substitute values into patterns provided.
  *
  * @param {string[]} values to substitute into each pattern.
  * @param {string} pattern each regexp or fixed string pattern
@@ -81,9 +81,15 @@ patternUtils.substituteValues = (values, pattern) => {
   return idSubstituted
 }
 
+/**
+ * Get patterns from a config file.
+ *
+ * @param {Object} args CLI arguments
+ *
+ * @returns {Array<string>} an array of patterns
+ */
 patternUtils.getPatterns = args => {
   if (args.config) {
-    // -- todo handle regexp parsing.
     const patterns = []
 
     for (const name of args.name) {
