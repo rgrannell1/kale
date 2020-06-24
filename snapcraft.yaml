@@ -4,6 +4,7 @@ version: v0.8.0
 base: core18
 
 icon: icon.png
+license: MIT
 
 summary: Highlight Logs
 
