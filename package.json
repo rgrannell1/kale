@@ -1,5 +1,5 @@
 {
-  "name": "kale",
+  "name": "@rgrannell/kale",
   "version": "0.8.0",
   "description": "Highlight Logs",
   "author": "Róisín Grannell <r.grannell2@gmail.com>",
@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/rgrannell1/kale#readme",
   "devDependencies": {
+    "@rgrannell/depcheck": "^9.4.0",
+    "@rgrannell/pulp": "^9.4.0",
     "standard": "13.1.0",
     "tap": "^14.10.7",
     "testdouble": "^3.16.0"
@@ -32,7 +34,6 @@
     "moment": "2.26.0",
     "nanoid": "^3.1.9",
     "neodoc": "2.0.2",
-    "npm": "^6.14.5",
     "split": "1.0.1",
     "strip-ansi-stream": "1.0.0"
   }

@@ -8,7 +8,7 @@ const constants = require('../commons/constants')
 
 const docs = `
 Name:
-  kale — highlight streamed text.
+  kale — highlight logs.
 Usage:
   kale [-c <fpath> | --config <fpath>] [(-n <name> | --name <name>)...] [(-x <val> | --val <val>)...] [-e | --regexp] [-f | --fixed-string] [-i | --invert] [-w | --whole-line] <pattern>...
   kale [-c <fpath> | --config <fpath>] [(-n <name> | --name <name>)...] [(-x <val> | --val <val>)...] [-i | --invert] [-w | --whole-line]
@@ -25,7 +25,7 @@ Options:
   -i, --invert                        Colour-invert any matches.
   -n <name>, --name <name>            The name of a saved pattern. Can be repeated.
   -x <val>, --val <val>               Values for each variable in a saved pattern.
-  -w, --whole-line                    If a match occurs, display the whole line rather than the matching text.
+  -w, --whole-line                    If a match occurs, display the whole line comtaining the match rather than the matching text.
   -h, --help                          Display this documentation.
   --version                           Display the package version.
 
@@ -34,7 +34,7 @@ Arguments:
 
 Named Regular Expressions:
   Kale allows regular expressions and fixed strings to be provided directly using -e and -f respectively. To reuse these patterns,
-  they can be saved to a .json file. An example file containing two patterns - the regexp "numbers" and fixed string "outLogger" - is shown below:
+  they can be saved to a .json file. An example file containing two patterns - the regexp "numbers" and fixed string "ourLogger" - is shown below:
 
   >  }
   >    "regexp": {
