@@ -1,16 +1,15 @@
 
 const fs = require('fs').promises
-const events = require('events')
 const errors = require('@rgrannell/errors')
 const constants = require('../commons/constants')
-const patternUtils = require('./patterns')
 const readStdin = require('../commons/read-stdin')
-const printLine = require('../app/print-line')
+const highlightInput = require('../commons/highlight-input')
 const handleErrors = require('../commons/handle-errors')
 const {
   console,
   process
 } = require('../commons/builtins')
+const { read } = require('fs')
 
 const { codes } = constants
 
@@ -33,31 +32,7 @@ const kale = async rawArgs => {
     process.exit(0)
   }
 
-  const outEmitter = new events.EventEmitter()
-
-  // -- a function to determine how text is printed.
-  const patterns = patternUtils.getPatterns(args)
-
-  readStdin(line => {
-    // -- format the text to print
-    const formatted = printLine(patterns, line, {
-      invert: args.invert,
-      displayWholeLine: args.displayWholeLine
-    })
-
-    // print the text
-    if (rawArgs.display) {
-      console.log(formatted)
-    }
-
-    // emit the line
-    outEmitter.emit('line', {
-      before: line,
-      after: formatted
-    })
-  })
-
-  return outEmitter
+  return highlightInput(args, readStdin)
 }
 
 /**

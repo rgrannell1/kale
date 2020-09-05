@@ -1,6 +1,8 @@
 
+const events = require('events')
 const ansi = require('ansi-styles')
 const utils = require('../commons/utils')
+const patternUtils = require('./patterns')
 const constants = require('../commons/constants')
 
 /**
@@ -101,4 +103,32 @@ const printLine = (patterns, line, options) => {
   return output
 }
 
-module.exports = printLine
+const highlightInput = (args, reader) => {
+  const outEmitter = new events.EventEmitter()
+
+  // -- a function to determine how text is printed.
+  const patterns = patternUtils.getPatterns(args)
+
+  reader(line => {
+    // -- format the text to print
+    const formatted = printLine(patterns, line, {
+      invert: args.invert,
+      displayWholeLine: args.displayWholeLine
+    })
+
+    // print the text
+    if (args.display) {
+      console.log(formatted)
+    }
+
+    // emit the line
+    outEmitter.emit('line', {
+      before: line,
+      after: formatted
+    })
+  })
+
+  return outEmitter
+}
+
+module.exports = highlightInput

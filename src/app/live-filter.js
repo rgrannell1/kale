@@ -4,13 +4,28 @@ const fs = require('fs')
 const tty = require('tty')
 const through = require('through');
 const split = require('split');
-const CircularBuffer = require('../commons/circular-buffer')
+
+const highlightInput = require('./highlight-input')
+const CircularBuffer = require('../commons/circular-buffer');
+const { fn } = require('moment');
+
+const args = {
+  invert: false,
+  displayWholeLine: false,
+  display: true
+}
+
+const read = fn => {
+  console.log('called')
+}
 
 const onInput = (lines, data) => {
   console.log('\033[2J')
   console.log('\033[H')
 
-  console.log(lines.values().join('\n'))
+  highlightInput(args, onLine => {
+    lines.values().forEach(line => onLine(line))
+  })
 }
 
 const readStdin = opts => {
