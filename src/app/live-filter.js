@@ -6,46 +6,16 @@ const through = require('through');
 const split = require('split');
 
 const highlightInput = require('./highlight-input')
-const CircularBuffer = require('../commons/circular-buffer');
-const KeyStroke = require('../commons/keystroke');
-const { fn } = require('moment');
+const CircularBuffer = require('../commons/circular-buffer')
+const ProcessState = require('../commons/process-state')
+const KeyStroke = require('../commons/keystroke')
 
-const args = {
-  invert: false,
-  displayWholeLine: false,
-  display: true,
-  patterns: ['a']
-}
+const onKeystroke = (proc, input) => {
+  proc.clearScreen()
+  proc.input(new KeyStroke(input))
 
-const clearTerminal = () => {
-  console.log('\033[2J')
-  console.log('\033[H')
-}
-
-// -- note: what if ctrl + c is rebound?
-const handleInterrupts = event => {
-  // -- CTRL-C: proxy sigint
-  if (event.isCtrlC()) {
-    process.kill(process.pid, 'SIGINT')
-  }
-
-  // -- CTRL-Z: proxy sigtstp
-  if (event.isCtrlZ()) {
-    process.kill(process.pid, 'SIGTSTP')
-  }
-
-}
-
-const onKeystroke = (lines, input) => {
-  clearTerminal()
-  const event = new KeyStroke(input)
-
-  handleInterrupts(event)
-
-  // -- interpret keystroke
-
-  highlightInput(args, onLine => {
-    lines.values().forEach(line => onLine(line))
+  highlightInput(proc.args(), onLine => {
+    proc.lines().values().forEach(line => onLine(line))
   })
 }
 
@@ -65,9 +35,10 @@ const main = async opts => {
   const ttyOut = tty.WriteStream(fd, { })
 
   const lines = readStdin(opts)
+  const proc = new ProcessState(lines)
 
   ttyIn.setRawMode(true)
-  ttyIn.on('data', onKeystroke.bind(null, lines))
+  ttyIn.on('data', onKeystroke.bind(null, proc))
 }
 
 const opts = {
