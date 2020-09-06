@@ -7,6 +7,7 @@ const split = require('split');
 
 const highlightInput = require('./highlight-input')
 const CircularBuffer = require('../commons/circular-buffer');
+const KeyStroke = require('../commons/keystroke');
 const { fn } = require('moment');
 
 const args = {
@@ -19,9 +20,30 @@ const read = fn => {
   console.log('called')
 }
 
-const onInput = (lines, data) => {
+const clearTerminal = () => {
   console.log('\033[2J')
   console.log('\033[H')
+}
+
+const handleInterrupts = event => {
+  // -- proxy sigint
+  if (event.isCtrlC()) {
+    process.kill(process.pid, 'SIGINT')
+  }
+
+  console.log(event.isCtrlC())
+  console.log(event.isCtrlC())
+  console.log(event.isCtrlC())
+  console.log(event.isCtrlC())
+}
+
+const onKeystroke = (lines, input) => {
+  clearTerminal()
+  const event = new KeyStroke(input)
+
+  handleInterrupts(event)
+
+  // -- interpret keystroke
 
   highlightInput(args, onLine => {
     lines.values().forEach(line => onLine(line))
@@ -46,7 +68,7 @@ const main = async opts => {
   const lines = readStdin(opts)
 
   ttyIn.setRawMode(true)
-  ttyIn.on('data', onInput.bind(null, lines))
+  ttyIn.on('data', onKeystroke.bind(null, lines))
 }
 
 const opts = {
