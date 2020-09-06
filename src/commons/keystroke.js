@@ -10,6 +10,9 @@ class KeyStroke {
   sequence () {
     return this._sequence
   }
+  isCtrlA () {
+    return this._sequence.codePointAt() === 1
+  }
   isCtrlC () {
     return this._sequence === '\u0003'
   }

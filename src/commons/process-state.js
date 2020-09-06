@@ -1,29 +1,40 @@
 
+const Screen = require('./screen')
+
 class ProcessState {
   constructor (lines) {
     const args = {
       invert: false,
       displayWholeLine: false,
       display: true,
-      patterns: ['a']
+      patterns: ['test']
     }
 
     this._lines = lines
     this._state = {
+      isSelectAll: false,
       highlightText: [],
       selectText: [],
       args
     }
+    this.screen = new Screen(this._state)
+  }
+  setPatterns (patterns) {
+    this._state.args.patterns = patterns
   }
   args () {
     return this._state.args
   }
+  headers () {
+    return this._state.highlightText
+  }
   lines () {
-    return this._lines
+    return this._lines.values()
   }
-  clearScreen () {
-    console.log('\x1B[2J\x1B[0f')
+  footers () {
+    return []
   }
+
   // -- update state based on the key input.
   input (event) {
     // -- CTRL-C: proxy sigint
@@ -38,13 +49,33 @@ class ProcessState {
       return
     }
 
-    // -- remove from the selected text buffer.
-    if (event.isBackspace()) {
-      console.log('hii')
+//console.log(event.sequence().codePointAt()
+
+    // -- CTRL-A: select current line and display
+    if (event.isCtrlA()) {
+      this._state.isSelectAll = true
     }
 
-    console.log(event.sequence().codePointAt())
+    // -- remove from the selected text buffer.
+    if (event.isBackspace()) {
+      // -- either delete the full line, or just the last character.
+      if (this._state.isSelectAll) {
+        this._state.highlightText = []
+        this._state.isSelectAll = false
+      } else {
+        this._state.highlightText.splice(-1, 1)
+      }
+    } else {
+      this._state.highlightText.push(event.sequence())
+    }
 
+    const pattern = this._state.highlightText.join('')
+
+    this.screen.showHighlightText(pattern, {
+      isSelectAll: this._state.isSelectAll
+    })
+
+    this.setPatterns([pattern])
   }
 }
 

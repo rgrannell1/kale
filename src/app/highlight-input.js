@@ -51,6 +51,12 @@ const formatText = (chars, id, options) => {
 const printLine = (patterns, line, options) => {
   const allMatches = []
 
+  const lineType = Object.prototype.toString.call(line).slice(8, -1).toLowerCase()
+
+  if (lineType !== 'string') {
+    throw new TypeError(`line was not a string; was a ${lineType}`)
+  }
+
   let id = 0
   // -- match each pattern as many times as possible using `matchAll`
   for (const pattern of patterns) {

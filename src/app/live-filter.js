@@ -11,11 +11,13 @@ const ProcessState = require('../commons/process-state')
 const KeyStroke = require('../commons/keystroke')
 
 const onKeystroke = (proc, input) => {
-  proc.clearScreen()
+  proc.screen.clear()
   proc.input(new KeyStroke(input))
 
   highlightInput(proc.args(), onLine => {
-    proc.lines().values().forEach(line => onLine(line))
+    proc.lines().forEach(line => {
+      onLine(line)
+    })
   })
 }
 
