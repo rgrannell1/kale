@@ -12,6 +12,7 @@ class ProcessState {
 
     this._lines = lines
     this._state = {
+      isStarted: false,
       isSelectAll: false,
       highlightText: [],
       selectText: [],

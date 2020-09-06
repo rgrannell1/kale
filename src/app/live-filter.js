@@ -38,6 +38,7 @@ const main = async opts => {
 
   const lines = readStdin(opts)
   const proc = new ProcessState(lines)
+  proc.screen.showUsagePrompt()
 
   ttyIn.setRawMode(true)
   ttyIn.on('data', onKeystroke.bind(null, proc))
