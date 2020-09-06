@@ -13,11 +13,8 @@ const { fn } = require('moment');
 const args = {
   invert: false,
   displayWholeLine: false,
-  display: true
-}
-
-const read = fn => {
-  console.log('called')
+  display: true,
+  patterns: ['a']
 }
 
 const clearTerminal = () => {
@@ -25,16 +22,18 @@ const clearTerminal = () => {
   console.log('\033[H')
 }
 
+// -- note: what if ctrl + c is rebound?
 const handleInterrupts = event => {
-  // -- proxy sigint
+  // -- CTRL-C: proxy sigint
   if (event.isCtrlC()) {
     process.kill(process.pid, 'SIGINT')
   }
 
-  console.log(event.isCtrlC())
-  console.log(event.isCtrlC())
-  console.log(event.isCtrlC())
-  console.log(event.isCtrlC())
+  // -- CTRL-Z: proxy sigtstp
+  if (event.isCtrlZ()) {
+    process.kill(process.pid, 'SIGTSTP')
+  }
+
 }
 
 const onKeystroke = (lines, input) => {
