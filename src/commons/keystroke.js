@@ -10,6 +10,12 @@ class KeyStroke {
   sequence () {
     return this._sequence
   }
+  isUp () {
+    return this._sequence === '\x1B[A'
+  }
+  isDown () {
+    return this._sequence === '\x1B[B'
+  }
   isCtrlA () {
     return this._sequence.codePointAt() === 1
   }
@@ -20,10 +26,10 @@ class KeyStroke {
     return this._sequence === '\u001a'
   }
   isDelete () {
-    return this._sequence.codePointAt() === 27
+    return this._sequence === '\x1B[3~'
   }
   isBackspace () {
-    return this._sequence.codePointAt() === 127
+    return this._sequence === '\x7F'
   }
 }
 

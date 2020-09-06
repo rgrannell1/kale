@@ -12,7 +12,7 @@ class Screen {
     let message = [
       'kale (live view)',
       '',
-      'hit ENTER to begin',
+      'hit ANY KEY to begin',
       '',
       'Backspace: Delete',
       'Ctrl + A:  Select Text',
@@ -21,16 +21,43 @@ class Screen {
 
     console.log(message.join('\n'))
   }
-  showHighlightText (pattern, opts) {
-    let header = '✨ >'
+  showHighlightText (pattern) {
+    const target = this._state.focus
 
-    if (opts.isSelectAll) {
+    let header = '✨ >'
+    const isSelectAll = this._state.isSelectAll && target === 'highlightText'
+
+    if (isSelectAll) {
       header += chalk.inverse(pattern)
     } else {
       header += pattern
     }
 
     console.log(header)
+  }
+  showFilterText (pattern) {
+    const target = this._state.focus
+
+    let header = '🔍 >'
+    const isSelectAll = this._state.isSelectAll && target === 'selectText'
+
+    if (isSelectAll) {
+      header += chalk.inverse(pattern)
+    } else {
+      header += pattern
+    }
+
+    console.log(header)
+  }
+  focus() {
+    return this._state.focus
+  }
+  swapFocus () {
+    if (this._state.focus === 'highlightText') {
+      this._state.focus = 'selectText'
+    } else {
+      this._state.focus = 'highlightText'
+    }
   }
 }
 
