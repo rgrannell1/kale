@@ -33,6 +33,10 @@ class Screen {
       header += pattern
     }
 
+    if (target === 'highlightText') {
+      header += chalk.inverse(' ')
+    }
+
     console.log(header)
   }
   showFilterText (pattern) {
@@ -45,6 +49,10 @@ class Screen {
       header += chalk.inverse(pattern)
     } else {
       header += pattern
+    }
+
+    if (target === 'selectText') {
+      header += chalk.inverse(' ')
     }
 
     console.log(header)

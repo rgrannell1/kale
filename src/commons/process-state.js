@@ -1,7 +1,9 @@
 
 const Screen = require('./screen')
 
-const handleKeys = { }
+const filterLine = (selectText, line) => {
+  return line.includes(selectText)
+}
 
 class ProcessState {
   constructor (lines) {
@@ -29,16 +31,14 @@ class ProcessState {
   args () {
     return this._state.args
   }
-  headers () {
-    return this._state.highlightText
+  selection () {
+    return this._state.selectText.join('')
   }
   lines () {
-    return this._lines.values()
+    return this._lines
+      .values()
+      .filter(filterLine.bind(null, this.selection()))
   }
-  footers () {
-    return []
-  }
-
   // -- update state based on the key input.
   input (event) {
     // -- CTRL-C: proxy sigint
@@ -58,13 +58,14 @@ class ProcessState {
       this._state.isSelectAll = true
     }
 
-    if (event.isUp() || event.isDown()) {
+    // -- drop useless signals
+    if (event.isEnter() || event.isTab()) {
+
+    } else if (event.isUp() || event.isDown()) {
       // -- move up or down between search bars
       this.screen.swapFocus()
     } else if (event.isBackspace()) {
       const target = this.screen.focus()
-
-      console.log(target)
 
       // -- remove from the selected text buffer.
       // -- either delete the full line, or just the last character.
@@ -73,6 +74,13 @@ class ProcessState {
         this._state.isSelectAll = false
       } else {
         this._state[target].splice(-1, 1)
+      }
+    } else if (event.isDelete()) {
+      const target = this.screen.focus()
+      // -- delete everything, or do nothing.
+      if (this._state.isSelectAll) {
+        this._state[target] = []
+        this._state.isSelectAll = false
       }
     } else {
       const target = this.screen.focus()
@@ -84,7 +92,7 @@ class ProcessState {
 
     this.screen.showHighlightText(pattern)
 
-    const selected = this._state.selectText.join('')
+    const selected = this.selection()
 
     this.screen.showFilterText(selected)
 
