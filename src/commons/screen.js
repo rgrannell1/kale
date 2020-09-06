@@ -10,16 +10,25 @@ class Screen {
   }
   showUsagePrompt () {
     let message = [
-      'kale (live view)',
+      'kale (live view) 🥬',
       '',
       'hit ANY KEY to begin',
       '',
-      'Backspace: Delete',
+      'Backspace, Delete',
       'Ctrl + A:  Select Text',
       'Ctrl + C:  Exit'
     ]
 
     console.log(message.join('\n'))
+  }
+  showSelectionStats () {
+    const selectionCount = this._state.selectionCount || 0
+    const totalLineCount = this._state.totalLineCount || 0
+    const percentage = Math.round(100 * (selectionCount / totalLineCount), 1)
+
+    let message = `showing ${selectionCount.toLocaleString()} / ${totalLineCount.toLocaleString()} lines (${percentage}%)`
+
+    console.log(message)
   }
   showHighlightText (pattern) {
     const target = this._state.focus

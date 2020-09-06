@@ -35,9 +35,14 @@ class ProcessState {
     return this._state.selectText.join('')
   }
   lines () {
-    return this._lines
-      .values()
+    const values = this._lines.values()
+    const filteredSelection = values
       .filter(filterLine.bind(null, this.selection()))
+
+    this._state.selectionCount = filteredSelection.length
+    this._state.totalLineCount = values.length
+
+    return filteredSelection
   }
   // -- update state based on the key input.
   input (event) {
@@ -90,6 +95,7 @@ class ProcessState {
     const target = this.screen.focus()
     const pattern = this._state.highlightText.join('')
 
+    this.screen.showSelectionStats()
     this.screen.showHighlightText(pattern)
 
     const selected = this.selection()
