@@ -45,7 +45,7 @@ const main = async opts => {
 }
 
 const opts = {
-  maxCapacity: 20
+  maxCapacity: 15
 }
 
 main(opts).catch(err => {
