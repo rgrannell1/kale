@@ -39,6 +39,43 @@ const formatText = (chars, id, options) => {
   }
 }
 
+const matchPatterns = (line, pattern) => {
+  const lineType = Object.prototype.toString.call(pattern).slice(8, -1).toLowerCase()
+
+  if (lineType === 'string') {
+    // -- return matches for string literals. Not implemented by default
+    let id = 0
+    const results = [ ]
+
+    for (let ith = 0; ith < line.length - pattern.length; ++ith) {
+      let sliced = line.slice(ith, line.length)
+
+      if (sliced.startsWith(pattern)) {
+        results.push({
+          start: ith,
+          end: ith + pattern.length,
+          id
+        })
+
+        ith += pattern.length
+        id++
+      }
+    }
+
+    return results
+  } else if (lineType === 'regexp') {
+    return [...line.matchAll(pattern)].map((pattern, ith) => {
+      allMatches.push({
+        start: match.index,
+        end: match.index + match[0].length,
+        id
+      })
+    })
+  } else {
+    throw new Error('.')
+  }
+}
+
 /**
  * Print regular expression or string matches.
  *
@@ -60,16 +97,8 @@ const printLine = (patterns, line, options) => {
   let id = 0
   // -- match each pattern as many times as possible using `matchAll`
   for (const pattern of patterns) {
-    const matches = [...line.matchAll(pattern)]
-
-    matches.forEach(match => {
-      allMatches.push({
-        start: match.index,
-        end: match.index + match[0].length,
-        id
-      })
-    })
-    ++id
+    // -- note: does not work with strings;
+    allMatches.push(...matchPatterns(line, pattern))
   }
 
   // -- convert to characters and indices.

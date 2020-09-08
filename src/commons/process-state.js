@@ -45,31 +45,31 @@ class ProcessState {
     return filteredSelection
   }
   // -- update state based on the key input.
-  input (event) {
+  input (key) {
     // -- CTRL-C: proxy sigint
-    if (event.isCtrlC()) {
+    if (key.isCtrlC()) {
       process.kill(process.pid, 'SIGINT')
       return
     }
 
     // -- CTRL-Z: proxy sigtstp
-    if (event.isCtrlZ()) {
+    if (key.isCtrlZ()) {
       process.kill(process.pid, 'SIGTSTP')
       return
     }
 
     // -- CTRL-A: select current line and display
-    if (event.isCtrlA()) {
+    if (key.isCtrlA()) {
       this._state.isSelectAll = true
     }
 
     // -- drop useless signals
-    if (event.isEnter() || event.isTab()) {
+    if (key.isEnter() || key.isTab()) {
 
-    } else if (event.isUp() || event.isDown()) {
+    } else if (key.isUp() || key.isDown()) {
       // -- move up or down between search bars
       this.screen.swapFocus()
-    } else if (event.isBackspace()) {
+    } else if (key.isBackspace()) {
       const target = this.screen.focus()
 
       // -- remove from the selected text buffer.
@@ -80,7 +80,7 @@ class ProcessState {
       } else {
         this._state[target].splice(-1, 1)
       }
-    } else if (event.isDelete()) {
+    } else if (key.isDelete()) {
       const target = this.screen.focus()
       // -- delete everything, or do nothing.
       if (this._state.isSelectAll) {
@@ -89,7 +89,7 @@ class ProcessState {
       }
     } else {
       const target = this.screen.focus()
-      this._state[target].push(event.sequence())
+      this._state[target].push(key.sequence())
     }
 
     const target = this.screen.focus()
