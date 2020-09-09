@@ -114,10 +114,9 @@ class ProcessState {
     const target = this.screen.focus()
     const pattern = this._state.highlightText.join('')
 
-    this.setPatterns([pattern])
-
-    // -- TODO bug, these are out of date due to selection being updated below
     this.screen.showSelectionStats()
+    // -- TODO bug, these are out of date due to selection being updated below
+    this.setPatterns([pattern])
 
     this.screen.showHighlightText(this.args().patterns[0] || '')
 

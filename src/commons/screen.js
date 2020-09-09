@@ -13,9 +13,8 @@ class Screen {
     const totalLineCount = this._state.totalLineCount || 0
     const percentage = Math.round(100 * (selectionCount / totalLineCount), 1)
 
-    let message = `KALE showing ${selectionCount.toLocaleString()} / ${totalLineCount.toLocaleString()} lines (${percentage}%)`
+    let message = `\nKALE showing ${selectionCount.toLocaleString()} / ${totalLineCount.toLocaleString()} lines (${percentage}%)`
 
-    console.log('\n')
     console.log(message)
   }
   showHighlightText (pattern) {
@@ -64,12 +63,15 @@ class Screen {
       this._state.focus = 'highlightText'
     }
   }
-  header () {
-
+  header (pattern) {
+    this.showSelectionStats()
+    this.showHighlightText(pattern)
+    this.showFilterText(pattern)
+    console.log('\n')
   }
   footer () {
     const footer = [
-      chalk.inverse('Ctrl + A') + ' Select Text',
+      chalk.inverse('Ctrl + A') + ' Select Field',
       chalk.inverse('Ctrl + C') + ' Exit'
     ]
 
