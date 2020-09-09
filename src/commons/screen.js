@@ -8,19 +8,6 @@ class Screen {
   clear () {
     console.log('\x1B[2J\x1B[0f')
   }
-  showUsagePrompt () {
-    let message = [
-      'kale (live view) 🥬',
-      '',
-      'hit ANY KEY to begin',
-      '',
-      'Backspace, Delete',
-      'Ctrl + A:  Select Text',
-      'Ctrl + C:  Exit'
-    ]
-
-    console.log(message.join('\n'))
-  }
   showSelectionStats () {
     const selectionCount = this._state.selectionCount || 0
     const totalLineCount = this._state.totalLineCount || 0
@@ -76,6 +63,17 @@ class Screen {
     } else {
       this._state.focus = 'highlightText'
     }
+  }
+  header () {
+
+  }
+  footer () {
+    const footer = [
+      chalk.inverse('Ctrl + A') + ' Select Text',
+      chalk.inverse('Ctrl + C') + ' Exit'
+    ]
+
+    console.log(footer.join('    '))
   }
   logLines () {
     const stdoutRows = process.stdout.rows || 20

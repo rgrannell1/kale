@@ -15,14 +15,10 @@ const ProcessState = require('../commons/process-state')
 const KeyStroke = require('../commons/keystroke');
 const chalk = require('chalk');
 
-const onKeystroke = (proc, _, input) => {
-  proc.screen.clear()
-  proc.input(new KeyStroke(input))
-
+const displayKale = proc => {
   const args = proc.args()
   const patterns = patternUtils.getPatterns(args)
 
-  // --TODO push into screen or process
   proc.lines()
     .slice(-proc.screen.logLines())
     .forEach(line => {
@@ -34,11 +30,14 @@ const onKeystroke = (proc, _, input) => {
       console.log(formatted)
     })
 
-  const footer = [
-    chalk.inverse('Ctrl + C') + ' exit'
-  ]
+  proc.screen.footer()
+}
 
-  console.log(footer.join(' '))
+const onKeystroke = (proc, _, input) => {
+  proc.screen.clear()
+  proc.input(new KeyStroke(input))
+
+  displayKale(proc)
 }
 
 const readStdin = opts => {
@@ -58,7 +57,8 @@ const main = async opts => {
 
   const lines = readStdin(opts)
   const proc = new ProcessState(lines)
-  proc.screen.showUsagePrompt()
+
+  displayKale(proc)
 
   ttyIn.setRawMode(true)
   ttyIn.on('data', onKeystroke.bind(null, proc, opts))
