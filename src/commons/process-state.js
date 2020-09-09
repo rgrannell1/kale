@@ -1,5 +1,20 @@
 
 const Screen = require('./screen')
+const generalCategory = require('general-category')
+
+const categories = {
+  controlCharacter: 'Cc'
+}
+
+const isValid = key => {
+  const category = generalCategory(key.sequence())
+
+  if (category === categories.controlCharacter) {
+    return false
+  }
+
+  return true
+}
 
 const filterLine = (selectText, line) => {
   return line.includes(selectText)
@@ -87,7 +102,8 @@ class ProcessState {
         this._state[target] = []
         this._state.isSelectAll = false
       }
-    } else {
+    } else if (isValid(key)) {
+      // -- do nothing for now
       const target = this.screen.focus()
       this._state[target].push(key.sequence())
     }
