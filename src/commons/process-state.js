@@ -20,13 +20,15 @@ const filterLine = (selectText, line) => {
   return line.includes(selectText)
 }
 
+
+// TODO dumb class, refactor.
 class ProcessState {
   constructor (lines) {
     const args = {
       invert: false,
       displayWholeLine: false,
       display: true,
-      patterns: ['test']
+      patterns: ['']
     }
 
     this._lines = lines
@@ -108,6 +110,7 @@ class ProcessState {
       this._state[target].push(key.sequence())
     }
 
+    // -- move to screen.
     const target = this.screen.focus()
     const pattern = this._state.highlightText.join('')
 

@@ -26,8 +26,9 @@ class Screen {
     const totalLineCount = this._state.totalLineCount || 0
     const percentage = Math.round(100 * (selectionCount / totalLineCount), 1)
 
-    let message = `showing ${selectionCount.toLocaleString()} / ${totalLineCount.toLocaleString()} lines (${percentage}%)`
+    let message = `KALE showing ${selectionCount.toLocaleString()} / ${totalLineCount.toLocaleString()} lines (${percentage}%)`
 
+    console.log('\n')
     console.log(message)
   }
   showHighlightText (pattern) {
@@ -66,7 +67,7 @@ class Screen {
 
     console.log(header)
   }
-  focus() {
+  focus () {
     return this._state.focus
   }
   swapFocus () {
@@ -75,6 +76,13 @@ class Screen {
     } else {
       this._state.focus = 'highlightText'
     }
+  }
+  logLines () {
+    const stdoutRows = process.stdout.rows || 20
+    const headerLines = 3
+    const footerlines = 2
+
+    return stdoutRows - headerLines - footerlines
   }
 }
 

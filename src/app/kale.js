@@ -3,7 +3,9 @@ const fs = require('fs').promises
 const errors = require('@rgrannell/errors')
 const constants = require('../commons/constants')
 const readStdin = require('../commons/read-stdin')
-const highlightInput = require('../commons/highlight-input')
+const {
+  highlightInput
+} = require('../commons/highlight-input')
 const handleErrors = require('../commons/handle-errors')
 const {
   console,

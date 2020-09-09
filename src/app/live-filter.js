@@ -4,21 +4,41 @@ const fs = require('fs')
 const tty = require('tty')
 const through = require('through');
 const split = require('split');
+const patternUtils = require('./patterns')
 
-const highlightInput = require('./highlight-input')
+const {
+  highlightInput,
+  printLine
+} = require('./highlight-input')
 const CircularBuffer = require('../commons/circular-buffer')
 const ProcessState = require('../commons/process-state')
-const KeyStroke = require('../commons/keystroke')
+const KeyStroke = require('../commons/keystroke');
+const chalk = require('chalk');
 
-const onKeystroke = (proc, input) => {
+const onKeystroke = (proc, _, input) => {
   proc.screen.clear()
   proc.input(new KeyStroke(input))
 
-  highlightInput(proc.args(), onLine => {
-    proc.lines().forEach(line => {
-      onLine(line)
+  const args = proc.args()
+  const patterns = patternUtils.getPatterns(args)
+
+  // --TODO push into screen or process
+  proc.lines()
+    .slice(-proc.screen.logLines())
+    .forEach(line => {
+      const formatted = printLine(patterns, line, {
+        invert: args.invert,
+        displayWholeLine: args.displayWholeLine
+      })
+
+      console.log(formatted)
     })
-  })
+
+  const footer = [
+    chalk.inverse('Ctrl + C') + ' exit'
+  ]
+
+  console.log(footer.join(' '))
 }
 
 const readStdin = opts => {
@@ -41,11 +61,11 @@ const main = async opts => {
   proc.screen.showUsagePrompt()
 
   ttyIn.setRawMode(true)
-  ttyIn.on('data', onKeystroke.bind(null, proc))
+  ttyIn.on('data', onKeystroke.bind(null, proc, opts))
 }
 
 const opts = {
-  maxCapacity: 15
+  maxCapacity: 1000
 }
 
 main(opts).catch(err => {

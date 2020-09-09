@@ -64,13 +64,15 @@ const matchPatterns = (line, pattern) => {
 
     return results
   } else if (lineType === 'regexp') {
-    return [...line.matchAll(pattern)].map((pattern, ith) => {
-      allMatches.push({
+    const results = [...line.matchAll(pattern)].map((match, ith) => {
+      return {
         start: match.index,
         end: match.index + match[0].length,
-        id
-      })
+        id: ith
+      }
     })
+
+    return results
   } else {
     throw new Error('.')
   }
@@ -166,4 +168,7 @@ const highlightInput = (args, reader) => {
   return outEmitter
 }
 
-module.exports = highlightInput
+module.exports = {
+  highlightInput,
+  printLine
+}
