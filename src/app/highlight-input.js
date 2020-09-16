@@ -98,7 +98,7 @@ const printLine = (patterns, line, options) => {
 
   let id = 0
   // -- match each pattern as many times as possible using `matchAll`
-  for (const pattern of patterns) {
+  for (const pattern of patterns.filter(pattern => pattern.length >0)) {
     // -- note: does not work with strings;
     allMatches.push(...matchPatterns(line, pattern))
   }

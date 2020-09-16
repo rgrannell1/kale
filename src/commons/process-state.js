@@ -33,6 +33,9 @@ class ProcessState {
 
     this._lines = lines
     this._state = {
+      // -- track the starting bound to control left-right flow.
+      boundsLeft: 0,
+
       isStarted: false,
       isSelectAll: false,
       highlightText: [],
@@ -61,6 +64,12 @@ class ProcessState {
 
     return filteredSelection
   }
+  bounds () {
+    return {
+      left: this._state.boundsLeft,
+      right: this._state.boundsLeft + process.stdout.columns,
+    }
+  }
   // -- update state based on the key input.
   input (key) {
     // -- CTRL-C: proxy sigint
@@ -86,6 +95,10 @@ class ProcessState {
     } else if (key.isUp() || key.isDown()) {
       // -- move up or down between search bars
       this.screen.swapFocus()
+    } else if (key.isLeft()) {
+      this._state.boundsLeft = Math.max(this._state.boundsLeft -= 5, 0)
+    } else if (key.isRight()) {
+      this._state.boundsLeft += 5
     } else if (key.isBackspace()) {
       const target = this.screen.focus()
 
@@ -104,6 +117,10 @@ class ProcessState {
         this._state[target] = []
         this._state.isSelectAll = false
       }
+    } else if (false) {
+
+      // TODO binding to switch to regular expression
+
     } else if (isValid(key)) {
       // -- do nothing for now
       const target = this.screen.focus()

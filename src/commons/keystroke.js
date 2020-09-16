@@ -16,6 +16,12 @@ class KeyStroke {
   isDown () {
     return this._sequence === '\x1B[B'
   }
+  isRight () {
+    return this._sequence === '\u001b[C'
+  }
+  isLeft () {
+    return this._sequence === '\u001b[D'
+  }
   isEnter () {
     return this._sequence === '\r'
   }

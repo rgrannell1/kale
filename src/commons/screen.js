@@ -70,9 +70,11 @@ class Screen {
     console.log('\n')
   }
   footer () {
+    const patternMode = 'RegExp'
     const footer = [
       chalk.inverse('Ctrl + A') + ' Select Field',
-      chalk.inverse('Ctrl + C') + ' Exit'
+      chalk.inverse('Ctrl + C') + ' Exit',
+      chalk.inverse('Ctrl + F') + ` Use ${patternMode}`
     ]
 
     console.log(footer.join('    '))
@@ -81,8 +83,7 @@ class Screen {
     const stdoutRows = process.stdout.rows || 20
     const headerLines = 3
     const footerlines = 2
-
-    return stdoutRows - headerLines - footerlines
+    return stdoutRows - (headerLines + footerlines)
   }
 }
 

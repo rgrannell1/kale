@@ -111,7 +111,9 @@ patternUtils.getPatterns = args => {
     return patterns
   }
 
-  const patternsProvided = args.patterns && args.patterns.length > 0
+  const patternsProvided = args.patterns && args.patterns.length > 0 && args.patterns.some(pattern => {
+    return pattern.length > 0
+  })
 
   // -- use provided patterns or fallback to a default.
   const patterns = patternsProvided

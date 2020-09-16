@@ -19,16 +19,25 @@ const displayKale = proc => {
   const args = proc.args()
   const patterns = patternUtils.getPatterns(args)
 
-  proc.lines()
-    .slice(-proc.screen.logLines())
-    .forEach(line => {
-      const formatted = printLine(patterns, line, {
-        invert: args.invert,
-        displayWholeLine: args.displayWholeLine
-      })
+  const logLines = proc.screen.logLines()
+  const selection = proc.lines()
+    .slice(-logLines)
 
-      console.log(formatted)
+  const columns = process.stdout.columns
+  const bounds = proc.bounds()
+
+  for (const line of selection) {
+    const formatted = printLine(patterns, line, {
+      invert: args.invert,
+      displayWholeLine: args.displayWholeLine
     })
+
+    // -- TODO avoid chopping ANSI highlights.
+
+    // -- trim to fit in the tty window.
+    const displayed = formatted.slice(bounds.left, bounds.right)
+    console.log(displayed)
+  }
 
   proc.screen.footer()
 }
