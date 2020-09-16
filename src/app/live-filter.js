@@ -26,6 +26,13 @@ const displayKale = proc => {
   const columns = process.stdout.columns
   const bounds = proc.bounds()
 
+  const maxLineLength = selection.reduce((max, curr) => {
+    return Math.max(max, curr.length)
+  }, 0)
+
+  // -- avoid streaming to avoid flickering,
+  let message = ''
+
   for (const line of selection) {
     const formatted = printLine(patterns, line, {
       invert: args.invert,
@@ -36,8 +43,11 @@ const displayKale = proc => {
 
     // -- trim to fit in the tty window.
     const displayed = formatted.slice(bounds.left, bounds.right)
-    console.log(displayed)
+    //console.log(displayed)
+    message += `${displayed}\n`
   }
+
+  console.log(message)
 
   proc.screen.footer()
 }
