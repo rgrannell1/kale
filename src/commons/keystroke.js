@@ -10,6 +10,12 @@ class KeyStroke {
   sequence () {
     return this._sequence
   }
+  isCtrlUp () {
+    return this._sequence === '\u001b[1;5A'
+  }
+  isCtrlDown () {
+    return this._sequence === '\u001b[1;5B'
+  }
   isUp () {
     return this._sequence === '\x1B[A'
   }

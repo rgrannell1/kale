@@ -19,12 +19,19 @@ const displayKale = proc => {
   const args = proc.args()
   const patterns = patternUtils.getPatterns(args)
 
+  const bounds = proc.bounds()
   const logLines = proc.screen.logLines()
+
+  const boundsTop = bounds.top
+  const boundsBottom = bounds.top + logLines
+
+
   const selection = proc.lines()
-    .slice(-logLines)
+    .slice(boundsTop, boundsBottom)
 
   const columns = process.stdout.columns
-  const bounds = proc.bounds()
+
+  // todo select
 
   const maxLineLength = selection.reduce((max, curr) => {
     return Math.max(max, curr.length)

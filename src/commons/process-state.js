@@ -35,6 +35,7 @@ class ProcessState {
     this._state = {
       // -- track the starting bound to control left-right flow.
       boundsLeft: 0,
+      boundsTop: 0,
 
       isStarted: false,
       isSelectAll: false,
@@ -64,10 +65,14 @@ class ProcessState {
 
     return filteredSelection
   }
+  selectionLineCount () {
+    return this._state.selectionCount || 0
+  }
   bounds () {
     return {
       left: this._state.boundsLeft,
       right: this._state.boundsLeft + process.stdout.columns,
+      top: this._state.boundsTop
     }
   }
   // -- update state based on the key input.
@@ -95,6 +100,10 @@ class ProcessState {
     } else if (key.isUp() || key.isDown()) {
       // -- move up or down between search bars
       this.screen.swapFocus()
+    } else if (key.isCtrlUp()) {
+      this._state.boundsTop = Math.max(this._state.boundsTop -= 5, 0)
+    } else if (key.isCtrlDown()) {
+      this._state.boundsTop += 5
     } else if (key.isLeft()) {
       this._state.boundsLeft = Math.max(this._state.boundsLeft -= 5, 0)
     } else if (key.isRight()) {
