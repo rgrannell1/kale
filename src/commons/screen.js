@@ -13,7 +13,7 @@ class Screen {
     const totalLineCount = this._state.totalLineCount || 0
     const percentage = Math.round(100 * (selectionCount / totalLineCount), 1)
 
-    let message = `\nKALE showing ${selectionCount.toLocaleString()} / ${totalLineCount.toLocaleString()} lines (${percentage}%)`
+    let message = `\nKALE line ${this._state.boundsTop}   ${selectionCount.toLocaleString()} / ${totalLineCount.toLocaleString()} lines (${percentage}%)`
 
     console.log(message)
   }
@@ -84,7 +84,7 @@ class Screen {
     const stdoutRows = process.stdout.rows || 20
     const headerLines = 3
     const footerlines = 2
-    return stdoutRows - (headerLines + footerlines)
+    return stdoutRows - (headerLines + footerlines + 1)
   }
 }
 

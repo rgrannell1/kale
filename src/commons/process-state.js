@@ -77,7 +77,7 @@ handlers.backspace = (state, screen) => {
 
 handlers.up = screen => {
   // -- move up or down between search bars
-  this.screen.swapFocus()
+  screen.swapFocus()
 }
 
 handlers.delete = state => {
