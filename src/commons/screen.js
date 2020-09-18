@@ -74,7 +74,8 @@ class Screen {
     const footer = [
       chalk.inverse('Ctrl + A') + ' Select Field',
       chalk.inverse('Ctrl + C') + ' Exit',
-      chalk.inverse('Ctrl + F') + ` Use ${patternMode}`
+      chalk.inverse('Ctrl + F') + ` Use ${patternMode}`,
+      chalk.inverse('Ctrl + G') + ` Jump to End`
     ]
 
     console.log(footer.join('    '))

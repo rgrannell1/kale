@@ -40,6 +40,9 @@ class KeyStroke {
   isCtrlC () {
     return this._sequence === '\u0003'
   }
+  isCtrlG () {
+    return this._sequence === '\x07'
+  }
   isCtrlZ () {
     return this._sequence === '\u001a'
   }

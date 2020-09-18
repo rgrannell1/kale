@@ -6,7 +6,7 @@ const categories = {
   controlCharacter: 'Cc'
 }
 
-const isValid = key => {
+const isNonControlKey = key => {
   const category = generalCategory(key.sequence())
 
   if (category === categories.controlCharacter) {
@@ -20,6 +20,74 @@ const filterLine = (selectText, line) => {
   return line.includes(selectText)
 }
 
+const handlers = { }
+
+handlers.right = state => {
+  state.boundsLeft += 5
+}
+
+handlers.left = state => {
+  state.boundsLeft = Math.max(state.boundsLeft -= 5, 0)
+}
+
+handlers.ctrlC = () => {
+  process.kill(process.pid, 'SIGINT')
+}
+
+handlers.ctrlZ = () => {
+  process.kill(process.pid, 'SIGTSTP')
+}
+
+handlers.ctrlG = (state, selectedLines) => {
+  state.boundsTop = selectedLines - process.stdout.rows
+}
+
+handlers.ctrlUp = state => {
+  state.boundsTop = Math.max(state.boundsTop -= 5, 0)
+}
+
+handlers.ctrlDown = state => {
+  state.boundsTop += 5
+}
+
+handlers.down = screen => {
+  screen.swapFocus()
+}
+
+handlers.ctrlA = state => {
+  this._state.isSelectAll = true
+}
+
+handlers.up = screen => {
+  screen.swapFocus()
+}
+
+handlers.backspace = (state, screen) => {
+  const target = screen.focus()
+
+  // -- remove from the selected text buffer.
+  // -- either delete the full line, or just the last character.
+  if (state.isSelectAll) {
+    state[target] = []
+    state.isSelectAll = false
+  } else {
+    state[target].splice(-1, 1)
+  }
+}
+
+handlers.up = screen => {
+  // -- move up or down between search bars
+  this.screen.swapFocus()
+}
+
+handlers.delete = state => {
+  const target = this.screen.focus()
+  // -- delete everything, or do nothing.
+  if (state.isSelectAll) {
+    state[target] = []
+    state.isSelectAll = false
+  }
+}
 
 // TODO dumb class, refactor.
 class ProcessState {
@@ -77,60 +145,35 @@ class ProcessState {
   }
   // -- update state based on the key input.
   input (key) {
-    // -- CTRL-C: proxy sigint
     if (key.isCtrlC()) {
-      process.kill(process.pid, 'SIGINT')
-      return
-    }
-
-    // -- CTRL-Z: proxy sigtstp
-    if (key.isCtrlZ()) {
-      process.kill(process.pid, 'SIGTSTP')
-      return
-    }
-
-    // -- CTRL-A: select current line and display
-    if (key.isCtrlA()) {
-      this._state.isSelectAll = true
-    }
-
-    // -- drop useless signals
-    if (key.isEnter() || key.isTab()) {
-
-    } else if (key.isUp() || key.isDown()) {
-      // -- move up or down between search bars
-      this.screen.swapFocus()
+      handlers.ctrlC()
+    } else if (key.isCtrlZ()) {
+      handlers.ctrlZ()
+    } else if (key.isCtrlA()) {
+      handlers.ctrlA(this._state)
+    } else if (key.isEnter() || key.isTab()) {
+      // -- drop useless signals
+    } else if (key.isUp()) {
+      handlers.up(this.screen)
+    } else if (key.isDown()) {
+      handlers.down(this.screen)
     } else if (key.isCtrlUp()) {
-      this._state.boundsTop = Math.max(this._state.boundsTop -= 5, 0)
+      handlers.ctrlUp(this._state)
     } else if (key.isCtrlDown()) {
-      this._state.boundsTop += 5
+      handlers.ctrlDown(this._state)
     } else if (key.isLeft()) {
-      this._state.boundsLeft = Math.max(this._state.boundsLeft -= 5, 0)
+      handlers.left(this._state)
     } else if (key.isRight()) {
-      this._state.boundsLeft += 5
+      handlers.right(this._state)
     } else if (key.isBackspace()) {
-      const target = this.screen.focus()
-
-      // -- remove from the selected text buffer.
-      // -- either delete the full line, or just the last character.
-      if (this._state.isSelectAll) {
-        this._state[target] = []
-        this._state.isSelectAll = false
-      } else {
-        this._state[target].splice(-1, 1)
-      }
+      handlers.backspace(this._state, this.screen)
     } else if (key.isDelete()) {
-      const target = this.screen.focus()
-      // -- delete everything, or do nothing.
-      if (this._state.isSelectAll) {
-        this._state[target] = []
-        this._state.isSelectAll = false
-      }
+      handlers.delete(this._state)
+    } else if (key.isCtrlG()) {
+      handlers.ctrlG(this._state, this.selectionLineCount())
     } else if (false) {
-
       // TODO binding to switch to regular expression
-
-    } else if (isValid(key)) {
+    } else if (isNonControlKey(key)) {
       // -- do nothing for now
       const target = this.screen.focus()
       this._state[target].push(key.sequence())

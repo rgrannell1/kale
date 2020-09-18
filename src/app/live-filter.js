@@ -59,7 +59,7 @@ const displayKale = proc => {
   proc.screen.footer()
 }
 
-const onKeystroke = (proc, _, input) => {
+const onKeystroke = (proc, _, input, x, y) => {
   proc.screen.clear()
   proc.input(new KeyStroke(input))
 
