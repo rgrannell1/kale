@@ -46,8 +46,8 @@ handlers.ctrlUp = state => {
   state.boundsTop = Math.max(state.boundsTop -= 5, 0)
 }
 
-handlers.ctrlDown = state => {
-  state.boundsTop += 5
+handlers.ctrlDown = (state, selectedLines) => {
+  state.boundsTop = Math.max(Math.min(state.boundsTop + 5, selectedLines - process.stdout.rows), 0)
 }
 
 handlers.down = screen => {
@@ -160,7 +160,7 @@ class ProcessState {
     } else if (key.isCtrlUp()) {
       handlers.ctrlUp(this._state)
     } else if (key.isCtrlDown()) {
-      handlers.ctrlDown(this._state)
+      handlers.ctrlDown(this._state, this.selectionLineCount())
     } else if (key.isLeft()) {
       handlers.left(this._state)
     } else if (key.isRight()) {
@@ -177,6 +177,9 @@ class ProcessState {
       // -- do nothing for now
       const target = this.screen.focus()
       this._state[target].push(key.sequence())
+
+      // -- TODO refresh top bounds
+      this._state.boundsTop = Math.max(Math.min(this._state.boundsTop + 5, this.selectionLineCount() - process.stdout.rows), 0)
     }
 
     // -- move to screen.

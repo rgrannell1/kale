@@ -11,7 +11,11 @@ class Screen {
   showSelectionStats () {
     const selectionCount = this._state.selectionCount || 0
     const totalLineCount = this._state.totalLineCount || 0
-    const percentage = Math.round(100 * (selectionCount / totalLineCount), 1)
+    let percentage = Math.round(100 * (selectionCount / totalLineCount), 1)
+
+    if (Number.isNaN(percentage)) {
+      percentage = 100
+    }
 
     const boundTop = this._state.boundsTop.toLocaleString()
 
