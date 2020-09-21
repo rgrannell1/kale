@@ -6,6 +6,11 @@ export interface Bounds {
   right: () => number
 }
 
+export interface Inputs {
+  matchType: string
+}
+
 export interface State {
-  bounds: Bounds
+  bounds: Bounds,
+  inputs: Inputs
 }
