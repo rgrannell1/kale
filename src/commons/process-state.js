@@ -91,7 +91,7 @@ handlers.delete = state => {
 
 // TODO dumb class, refactor.
 class ProcessState {
-  constructor (lines) {
+  constructor (lines, streams) {
     const args = {
       invert: false,
       displayWholeLine: false,
@@ -99,6 +99,7 @@ class ProcessState {
       patterns: undefined
     }
 
+    this._streams = streams
     this._lines = lines
     this._state = {
       // -- track the starting bound to control left-right flow.
@@ -112,7 +113,7 @@ class ProcessState {
       focus: 'highlightText',
       args
     }
-    this.screen = new Screen(this._state)
+    this.screen = new Screen(this._state, streams)
   }
   setPatterns (patterns) {
     this._state.args.patterns = patterns
@@ -186,9 +187,14 @@ class ProcessState {
     const target = this.screen.focus()
     const pattern = this._state.highlightText.join('')
 
-    this.screen.showSelectionStats()
-    // -- TODO bug, these are out of date due to selection being updated below
+
     this.setPatterns([pattern])
+
+
+    this.screen.showSelectionStats()
+
+
+    // -- TODO bug, these are out of date due to selection being updated below
 
     this.screen.showHighlightText(this.args().patterns[0] || '')
 

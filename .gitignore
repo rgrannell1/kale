@@ -7,3 +7,4 @@ LICENSE-MIT.md
 patterns.json
 .nyc_output
 data/
+dist/

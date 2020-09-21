@@ -50,11 +50,13 @@ const displayKale = proc => {
 
     // -- trim to fit in the tty window.
     const displayed = formatted.slice(bounds.left, bounds.right)
-    //console.log(displayed)
     message += `${displayed}\n`
   }
 
-  console.log(message)
+  const fd = fs.openSync('/dev/tty', 'r+')
+  const ttyOut = tty.WriteStream(fd, { })
+
+  ttyOut.write(message + '\n')
 
   proc.screen.footer()
 }
@@ -82,7 +84,10 @@ const main = async opts => {
   const ttyOut = tty.WriteStream(fd, { })
 
   const lines = readStdin(opts)
-  const proc = new ProcessState(lines)
+  const proc = new ProcessState(lines, {
+    in: ttyIn,
+    out: ttyOut
+  })
 
   displayKale(proc)
 

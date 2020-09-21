@@ -155,7 +155,10 @@ const highlightInput = (args, reader) => {
 
     // print the text
     if (args.display) {
-      console.log(formatted)
+      const fd = fs.openSync('/dev/tty', 'r+')
+      const ttyOut = tty.WriteStream(fd, { })
+
+      ttyOut.write(formatted + '\n')
     }
 
     // emit the line
