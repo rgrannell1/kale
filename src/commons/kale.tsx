@@ -14,7 +14,7 @@ import {
   KaleProps
 } from '../commons/types'
 
-export class Kale extends React.Component<KaleProps, any> {
+export class Kale extends React.Component<{}, any> {
   constructor (props:KaleProps) {
     super(props)
 
@@ -22,6 +22,15 @@ export class Kale extends React.Component<KaleProps, any> {
     const ttyIn = new tty.ReadStream(fd, { })
 
     this.state = {
+      cursor: {
+        position: 0
+      },
+      selection: {
+        count: 0,
+        total: 0
+      },
+      mode: 'Default',
+      command: '',
       ttyIn
     }
   }
@@ -48,7 +57,7 @@ export class Kale extends React.Component<KaleProps, any> {
       selection,
       mode,
       command
-    } = this.props
+    } = this.state
 
     return <>
       <Header cursor={cursor} selection={selection}/>

@@ -18,26 +18,7 @@ const main = () => {
 
   readline.emitKeypressEvents(ttyIn)
 
-  const state = {
-    cursor: {
-      position: 10
-    },
-    selection: {
-      count: 10,
-      total: 100
-    },
-    mode: 'Default',
-    command: 'my string'
-  }
-
-  const {
-    cursor,
-    selection,
-    mode,
-    command
-  } = state
-
-  render(<Kale cursor={cursor} selection={selection} mode={mode} command={command}/>)
+  render(<Kale/>)
 }
 
 main()

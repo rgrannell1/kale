@@ -19,17 +19,13 @@ const asKeyBinding = (key:any) => {
   }
 
   if (key.shift) {
-    id += 'ctrl + '
-  }
-
-  const foo = new Set(['escape', 'backspace'])
-
-  if (foo.has(key.name)) {
-    return key.name
+    id += 'shift + '
   }
 
   if (key.sequence) {
     id += key.sequence
+  } else if (key.name) {
+    id += key.name
   }
 
   return id
@@ -92,6 +88,8 @@ mappings.set(keypress('q'), (elem:React.Component) => {
   elem.setState((state:KaleProps) => {
     if (state.mode === 'Default') {
       process.kill(process.pid, 'SIGINT')
+    } else {
+      console.log(Object.keys(state))
     }
   })
 })
@@ -111,6 +109,7 @@ mappings.set(keypress('/'), (elem:React.Component) => {
 })
 
 mappings.set(truth, (elem:React.Component, key:any) => {
+  console.log('fallback')
   elem.setState((state:KaleProps) => {
     if (state.mode === 'EnterCommand' && !key.ctrl && !key.meta) {
       return {
