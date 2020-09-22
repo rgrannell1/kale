@@ -11,11 +11,13 @@ import {
 const mappings = new Map()
 
 const runCommand = (state:any, command:string) => {
-  // -- execute line jumps, and other things.
-
+  return {
+    mode: 'ShowCommand',
+    command: ''
+  }
 }
 
-mappings.set(hasSequence('return'), (elem:React.Component) => {
+mappings.set(hasName('return'), (elem:React.Component) => {
   elem.setState((state:KaleProps) => {
     if (state.mode === 'EnterCommand') {
       return runCommand(state, state.command)
@@ -33,11 +35,9 @@ mappings.set(hasName('backspace'), (elem:React.Component) => {
 
 mappings.set(hasName('escape'), (elem:React.Component) => {
   elem.setState((state:KaleProps) => {
-    if (state.mode === 'EnterCommand') {
-      return {
-        mode: 'Default',
-        command: ''
-      }
+    return {
+      mode: 'Default',
+      command: ''
     }
   })
 })
@@ -47,7 +47,9 @@ mappings.set(hasName('q'), (elem:React.Component) => {
     if (state.mode === 'Default') {
       process.kill(process.pid, 'SIGINT')
     } else {
-      console.log(Object.keys(state))
+      return {
+        command: state.command + 'q'
+      }
     }
   })
 })
@@ -61,6 +63,10 @@ mappings.set(hasSequence('/'), (elem:React.Component) => {
     if (state.mode === 'Default') {
       return {
         mode: 'EnterCommand'
+      }
+    } else if (state.mode === 'EnterCommand') {
+      return {
+        command: state.command + '/'
       }
     }
   })

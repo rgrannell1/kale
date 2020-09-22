@@ -22,6 +22,21 @@ export class EnterCommand extends React.PureComponent<EnterProps> {
   }
 }
 
+interface ShowProps {
+  command: string
+  output: string
+}
+
+export class ShowCommand extends React.PureComponent<ShowProps> {
+  render () {
+    const { output } = this.props
+    return <Box>
+      <Text inverse>&gt; things ran</Text>
+    </Box>
+
+  }
+}
+
 export class DefaultFooter extends React.PureComponent<{}> {
   render () {
     return <Box>
@@ -32,15 +47,18 @@ export class DefaultFooter extends React.PureComponent<{}> {
 
 interface FooterProps {
   mode: string,
-  command: string
+  command: string,
+  output: string
 }
 
 export class Footer extends React.PureComponent<FooterProps> {
   render () {
-    const { mode, command } = this.props
+    const { mode, command, output } = this.props
 
     if (mode === 'EnterCommand') {
-      return <EnterCommand command={command}></EnterCommand>
+      return <EnterCommand command={command}/>
+    } else if (mode === 'ShowCommand') {
+      return <ShowCommand output={output} command={command}/>
     } else {
       return <DefaultFooter ></DefaultFooter>
     }

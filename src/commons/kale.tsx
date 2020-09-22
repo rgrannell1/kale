@@ -52,6 +52,7 @@ export class Kale extends React.Component<{}, any> {
       },
       mode: 'Default',
       command: '',
+      output: '',
       ttyIn,
       lines,
       displayLines: []
@@ -115,6 +116,7 @@ export class Kale extends React.Component<{}, any> {
       selection,
       mode,
       command,
+      output,
       lines
     } = this.state
 
@@ -122,7 +124,7 @@ export class Kale extends React.Component<{}, any> {
       <Header cursor={cursor} selection={selection}/>
       <Body cursor={cursor} lines={lines} screen={screen}/>
       <Newline/>
-      <Footer mode={mode} command={command}/>
+      <Footer mode={mode} output={output} command={command}/>
     </>
   }
 }
