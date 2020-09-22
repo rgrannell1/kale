@@ -8,56 +8,41 @@ const {
   Newline,
 } = ink
 
-import {
-  State
-} from '../commons/types'
-
-
-const getKeybindings = (state:State) => {
-  const newMatchType = state.inputs.matchType === 'Literal'
-    ? 'RegExp'
-    : 'Literal'
-
-  return [
-    {
-      keybinding: 'Ctrl + A',
-      description: 'Select Field'
-    },
-    {
-      keybinding: 'Ctrl + C',
-      description: 'Exit'
-    },
-    {
-      keybinding: 'Ctrl + F',
-      description: `Use ${newMatchType}`
-    },
-    {
-      keybinding: 'Ctrl + G',
-      description: 'Jump to End'
-    }
-  ]
+interface EnterProps {
+  command: string
 }
 
-export const Command = (props:any) => {
-  const {
-    keybinding,
-    description
-  } = props
+export class EnterCommand extends React.PureComponent<EnterProps> {
+  render () {
+    const { command } = this.props
+    return <Box>
+      <Text inverse>&gt; {command}</Text>
+    </Box>
 
-  return <Box>
-    <Text inverse>{keybinding}</Text><Text> {description}</Text>
-  </Box>
-}
-
-export const Footer = (props:any) => {
-  const { state } = props
-  const components = [ ]
-
-  for (const { keybinding, description } of getKeybindings(state)) {
-    components.push(<Command key={keybinding} keybinding={keybinding} description={description}></Command>)
   }
+}
 
-  return <Box justifyContent="space-between">
-    {components}
-  </Box>
+export class DefaultFooter extends React.PureComponent<{}> {
+  render () {
+    return <Box>
+      <Text inverse>Press / to run command, q to exit, '?' for help</Text>
+    </Box>
+  }
+}
+
+interface FooterProps {
+  mode: string,
+  command: string
+}
+
+export class Footer extends React.PureComponent<FooterProps> {
+  render () {
+    const { mode, command } = this.props
+
+    if (mode === 'EnterCommand') {
+      return <EnterCommand command={command}></EnterCommand>
+    } else {
+      return <DefaultFooter ></DefaultFooter>
+    }
+  }
 }

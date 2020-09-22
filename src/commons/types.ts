@@ -1,16 +1,12 @@
 
-export interface Bounds {
-  top: () => number,
-  bottom: () => number,
-  left: () => number,
-  right: () => number
-}
-
-export interface Inputs {
-  matchType: string
-}
-
-export interface State {
-  bounds: Bounds,
-  inputs: Inputs
+export interface KaleProps {
+  cursor: {
+    position: number
+  },
+  selection: {
+    count: number,
+    total: number
+  },
+  mode: string,
+  command: string
 }

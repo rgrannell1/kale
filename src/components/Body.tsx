@@ -3,20 +3,20 @@ import React from 'react'
 import ink from 'ink'
 
 const {
-  Box,
-  Text ,
-  Newline,
+  Text
 } = ink
 
-import {
-  State
-} from '../commons/types'
-
-export const Body = (props:any) => {
-  const { state } = props
-  const components = [ ]
-
-  return <Box>
-    <Text>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</Text>
-  </Box>
+export class Body extends React.PureComponent<{}> {
+  render () {
+    return <>
+      <Text>test</Text>
+      <Text>test</Text>
+      <Text>test</Text>
+      <Text>test</Text>
+      <Text>test</Text>
+      <Text>test</Text>
+      <Text>test</Text>
+      <Text>test</Text>
+    </>
+  }
 }
