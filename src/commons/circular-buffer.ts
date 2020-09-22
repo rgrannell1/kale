@@ -1,6 +1,10 @@
 
-class CircularBuffer {
-  constructor (capacity) {
+export default class CircularBuffer <I> {
+  idx: number
+  _size: number
+  _capacity: number
+  buffer: I[]
+  constructor (capacity:number) {
     this.idx = 0
     this._size = 0
     this._capacity = capacity
@@ -12,7 +16,7 @@ class CircularBuffer {
   capacity () {
     return this._capacity
   }
-  add (elem) {
+  add (elem:I) {
     this.buffer[this.idx % this._capacity] = elem
     this.idx++
     this._size = Math.min(this._size + 1, this._capacity)
@@ -32,6 +36,8 @@ class CircularBuffer {
 
     return elems
   }
+  slice (start?:number, end?:number) {
+    return this.values().slice(start, end)
+  }
 }
 
-module.exports = CircularBuffer

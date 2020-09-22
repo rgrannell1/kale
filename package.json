@@ -32,6 +32,8 @@
   },
   "dependencies": {
     "@rgrannell/errors": "^9.1.0",
+    "@types/split": "^1.0.0",
+    "@types/through": "0.0.30",
     "ansi-styles": "^2.2.1",
     "chalk": "^4.1.0",
     "general-category": "^1.6.0",

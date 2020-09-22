@@ -4,15 +4,23 @@ import readline from 'readline'
 
 import * as tty from 'tty'
 import * as fs from 'fs'
+import split from 'split'
+import through from 'through'
 
 import { Header } from '../components/Header.js'
 import { Footer } from '../components/Footer.js'
 import { Body } from '../components/Body.js'
 
+import CircularBuffer from './circular-buffer.js'
+
 import mappings from './keypress.js'
 import {
   KaleProps
 } from '../commons/types'
+
+const lineMatchesPattern = (pattern:string, line:string):Boolean => {
+  return line.includes(pattern)
+}
 
 export class Kale extends React.Component<{}, any> {
   constructor (props:KaleProps) {
@@ -20,6 +28,7 @@ export class Kale extends React.Component<{}, any> {
 
     const fd = fs.openSync('/dev/tty', 'r+')
     const ttyIn = new tty.ReadStream(fd, { })
+    const lines = new CircularBuffer(1000)
 
     this.state = {
       cursor: {
@@ -29,15 +38,52 @@ export class Kale extends React.Component<{}, any> {
         count: 0,
         total: 0
       },
+      patterns: {
+        search: '',
+        highlight: ''
+      },
       mode: 'Default',
       command: '',
-      ttyIn
+      ttyIn,
+      lines,
+      displayLines: []
     }
   }
-  componentDidMount () {
+  readKeyStrokes () {
     readline.emitKeypressEvents(this.state.ttyIn)
     this.state.ttyIn.on('keypress', this.handleKeyPress.bind(this))
     this.state.ttyIn.setRawMode(true)
+  }
+  readStdin () {
+    let idx = 0
+
+    process.stdin
+      .pipe(split())
+      .pipe(through(line => {
+        this.setState((state:KaleProps) => {
+          // -- todo update count based on selection pattern.
+          const isMatch = lineMatchesPattern(state.patterns.search, line)
+          const selection = {
+            count: state.selection.count + (isMatch ? 1 : 0),
+            total: state.selection.total + 1
+          }
+
+          state.lines.add({
+            text: line,
+            id: idx++
+          })
+
+          return {
+            selection,
+            lines: state.lines,
+            displayLines: state.lines.slice(0, 4)
+          }
+        })
+      }))
+  }
+  componentDidMount () {
+    this.readKeyStrokes()
+    this.readStdin()
   }
   componentWillUnmount () {
     this.state.ttyIn.removeListener('keypress', this.handleKeyPress)
@@ -56,12 +102,13 @@ export class Kale extends React.Component<{}, any> {
       cursor,
       selection,
       mode,
-      command
+      command,
+      displayLines
     } = this.state
 
     return <>
       <Header cursor={cursor} selection={selection}/>
-      <Body/>
+      <Body cursor={cursor} displayLines={displayLines}/>
       <Footer mode={mode} command={command}/>
     </>
   }
