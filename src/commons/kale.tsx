@@ -18,6 +18,9 @@ import {
   KaleProps
 } from '../commons/types'
 
+import ink from 'ink'
+const { Newline } = ink
+
 const lineMatchesPattern = (pattern:string, line:string):Boolean => {
   return line.includes(pattern)
 }
@@ -28,9 +31,13 @@ export class Kale extends React.Component<{}, any> {
 
     const fd = fs.openSync('/dev/tty', 'r+')
     const ttyIn = new tty.ReadStream(fd, { })
-    const lines = new CircularBuffer(1000)
+    const lines = new CircularBuffer(20_000)
 
     this.state = {
+      screen: {
+        rows: process.stdout.rows,
+        columns: process.stdout.columns
+      },
       cursor: {
         position: 0
       },
@@ -54,6 +61,10 @@ export class Kale extends React.Component<{}, any> {
     this.state.ttyIn.on('keypress', this.handleKeyPress.bind(this))
     this.state.ttyIn.setRawMode(true)
   }
+  selectDisplayLines (lines:any, cursor:any, screen:any) {
+    const occupied = 5
+    return lines.slice(cursor.position, screen.rows - occupied)
+  }
   readStdin () {
     let idx = 0
 
@@ -74,9 +85,13 @@ export class Kale extends React.Component<{}, any> {
           })
 
           return {
+            console: {
+              rows: process.stdout.rows,
+              columns: process.stdout.columns
+            },
             selection,
             lines: state.lines,
-            displayLines: state.lines.slice(0, 4)
+            displayLines: this.selectDisplayLines(state.lines, state.cursor, state.screen)
           }
         })
       }))
@@ -100,6 +115,7 @@ export class Kale extends React.Component<{}, any> {
   render () {
     const {
       cursor,
+      screen,
       selection,
       mode,
       command,
@@ -108,7 +124,8 @@ export class Kale extends React.Component<{}, any> {
 
     return <>
       <Header cursor={cursor} selection={selection}/>
-      <Body cursor={cursor} displayLines={displayLines}/>
+      <Body cursor={cursor} displayLines={displayLines} screen={screen}/>
+      <Newline/>
       <Footer mode={mode} command={command}/>
     </>
   }

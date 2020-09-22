@@ -7,6 +7,10 @@ export interface LineData {
 }
 
 export interface KaleProps {
+  screen: {
+    rows: number,
+    columns: number
+  },
   cursor: {
     position: number
   },

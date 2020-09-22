@@ -7,6 +7,12 @@ const truth = () => true
 
 const mappings = new Map()
 
+const hasName = (val:string) => {
+  return (key:any) => {
+    return key.name === val
+  }
+}
+
 const asKeyBinding = (key:any) => {
   if (!key) {
     return
@@ -108,8 +114,27 @@ mappings.set(keypress('/'), (elem:React.Component) => {
   })
 })
 
+mappings.set(hasName('up'), (elem:React.Component) => {
+  elem.setState((state:KaleProps) => {
+    return {
+      cursor: {
+        position: Math.max(state.cursor.position - 1, 0)
+      }
+    }
+  })
+})
+
+mappings.set(hasName('down'), (elem:React.Component) => {
+  elem.setState((state:KaleProps) => {
+    return {
+      cursor: {
+        position: state.cursor.position + 1
+      }
+    }
+  })
+})
+
 mappings.set(truth, (elem:React.Component, key:any) => {
-  console.log('fallback')
   elem.setState((state:KaleProps) => {
     if (state.mode === 'EnterCommand' && !key.ctrl && !key.meta) {
       return {

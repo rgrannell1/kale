@@ -6,24 +6,24 @@ const {
   Text
 } = ink
 
-export class Line extends React.PureComponent<any> {
-  render () {
-    return <Text>{this.props.content}</Text>
-  }
-}
-
 export class Body extends React.PureComponent<any> {
+  trimLine(line:string, screen:{columns: number}) {
+    return line.slice(0, screen.columns)
+  }
   render () {
     const {
       cursor,
-      displayLines
+      displayLines,
+      screen
     } = this.props
 
     const elems = []
 
     for (const { text, id } of displayLines) {
-      // -- change id
-      elems.push(<Line key={id} content={text}/>)
+      const isSelected = cursor.position === id
+      const trimmed = this.trimLine(text, screen)
+
+      elems.push(<Text key={id} inverse={isSelected}>{trimmed}</Text>)
     }
 
     return <>{elems}</>
