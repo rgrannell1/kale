@@ -1,7 +1,7 @@
 
 import {
   KaleProps
-} from './types'
+} from '../types'
 
 const truth = () => true
 
@@ -60,17 +60,6 @@ mappings.set(keypress('ctrl + z'), (elem:React.Component) => {
   process.kill(process.pid, 'SIGSTP')
 })
 
-mappings.set(keypress('ctrl + g'), (elem:React.Component) => {
-  elem.setState((state:KaleProps) => {
-    return {
-      cursor: {
-        ...state.cursor,
-        position: 28
-      }
-    }
-  })
-})
-
 mappings.set(keypress('backspace'), (elem:React.Component) => {
   elem.setState((state:KaleProps) => {
     return {
@@ -114,11 +103,19 @@ mappings.set(keypress('/'), (elem:React.Component) => {
   })
 })
 
+const selectDisplayLines = (lines:any, cursor:any, screen:any) => {
+  const occupied = 5
+  const lower = cursor.position + (screen.rows - occupied)
+
+  return lines.slice(cursor.position, screen.rows - occupied)
+}
+
 mappings.set(hasName('up'), (elem:React.Component) => {
   elem.setState((state:KaleProps) => {
     return {
       cursor: {
-        position: Math.max(state.cursor.position - 1, 0)
+        position: Math.max(state.cursor.position - 1, 0),
+        column: state.cursor.column
       }
     }
   })
@@ -128,8 +125,44 @@ mappings.set(hasName('down'), (elem:React.Component) => {
   elem.setState((state:KaleProps) => {
     return {
       cursor: {
-        position: state.cursor.position + 1
+        position: state.cursor.position + 1,
+        column: state.cursor.column
       }
+    }
+  })
+})
+
+mappings.set(hasName('right'), (elem:React.Component) => {
+  elem.setState((state:KaleProps) => {
+    return {
+      cursor: {
+        position: state.cursor.position,
+        column: state.cursor.column + 2
+      }
+    }
+  })
+})
+
+mappings.set(hasName('left'), (elem:React.Component) => {
+  elem.setState((state:KaleProps) => {
+    return {
+      cursor: {
+        position: state.cursor.position,
+        column: Math.max(state.cursor.column - 2, 0)
+      }
+    }
+  })
+})
+
+
+const runCommand = (state:any, command:string) => {
+  // -- execute line jumps
+}
+
+mappings.set(hasName('enter'), (elem:React.Component) => {
+  elem.setState((state:KaleProps) => {
+    if (state.mode === 'EnterCommand') {
+      return runCommand(state, state.command)
     }
   })
 })

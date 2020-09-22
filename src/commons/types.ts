@@ -12,7 +12,8 @@ export interface KaleProps {
     columns: number
   },
   cursor: {
-    position: number
+    position: number,
+    column: number
   },
   selection: {
     count: number,

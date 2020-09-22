@@ -13,7 +13,7 @@ import { Body } from '../components/Body.js'
 
 import CircularBuffer from './circular-buffer.js'
 
-import mappings from './keypress.js'
+import mappings from './keypress/index.js'
 import {
   KaleProps
 } from '../commons/types'
@@ -39,7 +39,8 @@ export class Kale extends React.Component<{}, any> {
         columns: process.stdout.columns
       },
       cursor: {
-        position: 0
+        position: 0,
+        column: 0
       },
       selection: {
         count: 0,
@@ -60,10 +61,6 @@ export class Kale extends React.Component<{}, any> {
     readline.emitKeypressEvents(this.state.ttyIn)
     this.state.ttyIn.on('keypress', this.handleKeyPress.bind(this))
     this.state.ttyIn.setRawMode(true)
-  }
-  selectDisplayLines (lines:any, cursor:any, screen:any) {
-    const occupied = 5
-    return lines.slice(cursor.position, screen.rows - occupied)
   }
   readStdin () {
     let idx = 0
@@ -90,8 +87,7 @@ export class Kale extends React.Component<{}, any> {
               columns: process.stdout.columns
             },
             selection,
-            lines: state.lines,
-            displayLines: this.selectDisplayLines(state.lines, state.cursor, state.screen)
+            lines: state.lines
           }
         })
       }))
@@ -119,12 +115,12 @@ export class Kale extends React.Component<{}, any> {
       selection,
       mode,
       command,
-      displayLines
+      lines
     } = this.state
 
     return <>
       <Header cursor={cursor} selection={selection}/>
-      <Body cursor={cursor} displayLines={displayLines} screen={screen}/>
+      <Body cursor={cursor} lines={lines} screen={screen}/>
       <Newline/>
       <Footer mode={mode} command={command}/>
     </>
