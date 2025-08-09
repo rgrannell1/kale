@@ -27,7 +27,7 @@
     "@rgrannell/depcheck": "^9.4.0",
     "@rgrannell/pulp": "^9.4.0",
     "standard": "13.1.0",
-    "tap": "^14.10.7",
+    "tap": "^21.1.0",
     "testdouble": "^3.16.0"
   },
   "dependencies": {
